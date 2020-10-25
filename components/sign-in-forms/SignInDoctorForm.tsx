@@ -14,31 +14,27 @@ import Colors from '../../Colors';
 
 interface ICreateDoctorForm {
   loading: boolean;
-  onCreateDoctor: (form: IForm) => void;
+  onSignInDoctor: (form: IForm) => void;
 }
 
 export interface IForm {
-  name: string;
-  email: string;
   crm: string;
   password: string;
 }
 
-type IFormFields = 'name' | 'email' | 'crm' | 'password';
+type IFormFields = 'crm' | 'password';
 
-const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
+const SignInDoctorForm: React.FC<ICreateDoctorForm> = ({
   loading,
-  onCreateDoctor,
+  onSignInDoctor,
 }) => {
   const form = {
-    name: '',
-    email: '',
     crm: '',
     password: '',
   };
 
   const handleCreateButton = (): void => {
-    onCreateDoctor(form);
+    onSignInDoctor(form);
   };
 
   const FormItem = (name: string, field: IFormFields): React.ReactElement => (
@@ -58,8 +54,6 @@ const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
   return (
     <View>
       <Form>
-        {FormItem('Nome Completo', 'name')}
-        {FormItem('Email', 'email')}
         {FormItem('CRM', 'crm')}
         {FormItem('Senha', 'password')}
       </Form>
@@ -71,12 +65,12 @@ const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
           iconLeft
           disabled={loading}
           onPress={handleCreateButton}>
-          <Icon type="FontAwesome" name="save" />
-          <Text>Criar</Text>
+          <Icon type="FontAwesome" name="sign-in" />
+          <Text>Entrar</Text>
         </Button>
       </View>
     </View>
   );
 };
 
-export default CreateDoctorForm;
+export default SignInDoctorForm;

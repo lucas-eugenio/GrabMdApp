@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Form,
@@ -11,34 +11,37 @@ import {
   View,
 } from 'native-base';
 import Colors from '../../Colors';
+import { MaskService } from 'react-native-masked-text';
 
-interface ICreateDoctorForm {
+interface ICreateCompanyForm {
   loading: boolean;
-  onCreateDoctor: (form: IForm) => void;
+  onCreateCompany: (form: IForm) => void;
 }
 
 export interface IForm {
   name: string;
   email: string;
-  crm: string;
+  cnpj: string;
   password: string;
 }
 
-type IFormFields = 'name' | 'email' | 'crm' | 'password';
+type IFormFields = 'name' | 'email' | 'cnpj' | 'password';
 
-const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
+const CreateCompanyForm: React.FC<ICreateCompanyForm> = ({
   loading,
-  onCreateDoctor,
+  onCreateCompany,
 }) => {
+  const [cnpj, setCnpj] = useState('');
+
   const form = {
     name: '',
     email: '',
-    crm: '',
+    cnpj: '',
     password: '',
   };
 
   const handleCreateButton = (): void => {
-    onCreateDoctor(form);
+    onCreateCompany(form);
   };
 
   const FormItem = (name: string, field: IFormFields): React.ReactElement => (
@@ -47,10 +50,20 @@ const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
         <Label style={{ color: Colors.success, fontWeight: '600' }}>
           {name}
         </Label>
-        <Input
-          autoCapitalize="none"
-          onChangeText={(text) => (form[field] = text)}
-        />
+        {field === 'cnpj' ? (
+          <Input
+            value={cnpj}
+            onChangeText={(text) => {
+              form.cnpj = MaskService.toMask('cnpj', text);
+              setCnpj(MaskService.toMask('cnpj', text));
+            }}
+          />
+        ) : (
+          <Input
+            autoCapitalize="none"
+            onChangeText={(text) => (form[field] = text)}
+          />
+        )}
       </Item>
     </View>
   );
@@ -58,9 +71,9 @@ const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
   return (
     <View>
       <Form>
-        {FormItem('Nome Completo', 'name')}
+        {FormItem('Nome Fantasia', 'name')}
         {FormItem('Email', 'email')}
-        {FormItem('CRM', 'crm')}
+        {FormItem('CNPJ', 'cnpj')}
         {FormItem('Senha', 'password')}
       </Form>
       <View style={{ marginTop: 40, alignSelf: 'center' }}>
@@ -79,4 +92,4 @@ const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
   );
 };
 
-export default CreateDoctorForm;
+export default CreateCompanyForm;

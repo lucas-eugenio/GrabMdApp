@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Container, Content, View, Toast, Text } from 'native-base';
-import { BodyText, H1 } from '../typography/Typography';
-import CreateDoctorForm, { IForm } from '../create-forms/CreateDoctorForm';
-import CreateDoctor from '../../graphql/mutations/CreateDoctor.gql';
+import { Container, Content, View, Toast, Text, H1 } from 'native-base';
+import CreateDoctorForm, { IForm } from '../../create-forms/CreateDoctorForm';
+import CreateDoctor from '../../../graphql/mutations/CreateDoctor';
 import { useMutation } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
-import RootStackParamList from '../../RootStackParamList';
+import RootStackParamList from '../../../RootStackParamList';
 
 interface ICreateDoctorPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
@@ -23,7 +22,7 @@ const CreateDoctorPage: React.FC<ICreateDoctorPage> = ({ navigation }) => {
     if (!hasError) {
       createDoctor({ variables: { name, email, crm, password } })
         .then(() => {
-          navigation.navigate('Home', { createdDoctor: true });
+          navigation.navigate('Start', { createdDoctor: true });
         })
         .catch(() => {
           Toast.show({
@@ -67,9 +66,11 @@ const CreateDoctorPage: React.FC<ICreateDoctorPage> = ({ navigation }) => {
       <Content padder>
         <View style={{ alignItems: 'center' }}>
           <H1>Bem vindo ao GrabMD!</H1>
-          <BodyText>Preencha suas informações pessoais.</BodyText>
-          <Text style={{ marginTop: 20, fontSize: 14 }}>
-            Todas as informações são obrigatórias!
+          <Text style={{ marginTop: 8, textAlign: 'center' }}>
+            Preencha suas informações pessoais.
+          </Text>
+          <Text style={{ marginTop: 20, fontWeight: '600' }}>
+            Todas as informações são obrigatórias
           </Text>
         </View>
         <CreateDoctorForm

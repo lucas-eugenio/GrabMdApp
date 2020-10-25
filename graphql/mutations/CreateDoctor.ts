@@ -1,11 +1,5 @@
 import { gql } from '@apollo/client';
-
-const DoctorFragment = gql`
-  fragment DoctorFragment on Doctor {
-    id
-    name
-  }
-`;
+import DoctorFragment from '../fragments/DoctorFragment';
 
 const CreateDoctor = gql`
   mutation CreateDoctor(

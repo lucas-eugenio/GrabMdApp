@@ -1,8 +1,7 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../RootStackParamList';
-import { Button, Container, Content, Icon, Text, View } from 'native-base';
-import { BodyText, H1 } from '../typography/Typography';
+import { Button, Container, Content, Icon, Text, View, H1 } from 'native-base';
 
 interface IRegisterPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
@@ -14,7 +13,9 @@ const RegisterPage: React.FC<IRegisterPage> = ({ navigation }) => {
       <Content padder>
         <View style={{ alignItems: 'center' }}>
           <H1>Bem vindo ao GrabMD!</H1>
-          <BodyText>Você é um Médico ou representa uma Empresa?</BodyText>
+          <Text style={{ marginTop: 8, textAlign: 'center' }}>
+            Você é um Médico ou representa uma Empresa?
+          </Text>
         </View>
         <View>
           <Button
