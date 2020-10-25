@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../RootStackParamList';
-import { Button, Container, Content, Icon, Text, View } from 'native-base';
+import {
+  Button,
+  Container,
+  Content,
+  Icon,
+  Text,
+  Toast,
+  View,
+} from 'native-base';
 import { BodyText, H1 } from '../typography/Typography';
+import { RouteProp } from '@react-navigation/native';
 
 interface IHomePage {
   navigation: StackNavigationProp<RootStackParamList, 'Home'>;
+  route: RouteProp<RootStackParamList, 'Home'>;
 }
 
-const HomePage: React.FC<IHomePage> = ({ navigation }) => {
+const HomePage: React.FC<IHomePage> = ({ navigation, route }) => {
+  useEffect(() => {
+    route.params?.createdDoctor &&
+      Toast.show({ text: 'Sucesso: Médico Criado', type: 'success' });
+  }, [route]);
+
   return (
     <Container>
       <Content padder>

@@ -1,5 +1,5 @@
 export type RootStackParamList = {
-  Home: undefined;
+  Home: { createdDoctor?: boolean };
   Login: undefined;
   Register: undefined;
   CreateDoctor: undefined;
