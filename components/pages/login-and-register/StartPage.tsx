@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import RootStackParamList from '../../RootStackParamList';
+import RootStackParamList from '../../../RootStackParamList';
 import {
   Button,
   Container,
@@ -9,27 +9,41 @@ import {
   Text,
   Toast,
   View,
+  H1,
 } from 'native-base';
-import { BodyText, H1 } from '../typography/Typography';
 import { RouteProp } from '@react-navigation/native';
+import useToken from '../../../utils/useToken';
 
 interface IHomePage {
-  navigation: StackNavigationProp<RootStackParamList, 'Home'>;
-  route: RouteProp<RootStackParamList, 'Home'>;
+  navigation: StackNavigationProp<RootStackParamList, 'Start'>;
+  route: RouteProp<RootStackParamList, 'Start'>;
 }
 
-const HomePage: React.FC<IHomePage> = ({ navigation, route }) => {
+const StartPage: React.FC<IHomePage> = ({ navigation, route }) => {
+  const { token, loading, resetToken } = useToken();
+
   useEffect(() => {
     route.params?.createdDoctor &&
       Toast.show({ text: 'Sucesso: Médico Criado', type: 'success' });
+    route.params?.createdCompany &&
+      Toast.show({ text: 'Sucesso: Empresa Criada', type: 'success' });
+    route.params?.deleteToken && resetToken();
   }, [route]);
+
+  // TODO: Remove This
+  useEffect(() => {
+    !token && Toast.show({ text: 'Não tem Token', type: 'danger' });
+    token && Toast.show({ text: 'Tem Token', type: 'success' });
+  }, [loading]);
 
   return (
     <Container>
       <Content padder>
         <View style={{ alignItems: 'center' }}>
           <H1>Bem vindo ao GrabMD!</H1>
-          <BodyText>Faça login ou cadastre-se para usar.</BodyText>
+          <Text style={{ marginTop: 8, textAlign: 'center' }}>
+            Faça login ou cadastre-se para usar
+          </Text>
         </View>
         <View>
           <Button
@@ -57,4 +71,4 @@ const HomePage: React.FC<IHomePage> = ({ navigation, route }) => {
   );
 };
 
-export default HomePage;
+export default StartPage;
