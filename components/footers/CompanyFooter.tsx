@@ -11,11 +11,11 @@ const DoctorFooter: React.FC<IDoctorFooter> = ({ navigation }) => {
   return (
     <Footer>
       <FooterTab>
-        <Button vertical onPress={() => navigation.navigate('DoctorHome')}>
+        <Button vertical onPress={() => navigation.navigate('CompanyHome')}>
           <Icon type="FontAwesome5" name="clinic-medical" />
           <Text>Home</Text>
         </Button>
-        <Button vertical onPress={() => navigation.navigate('DoctorProfile')}>
+        <Button vertical onPress={() => navigation.navigate('CompanyProfile')}>
           <Icon type="FontAwesome5" name="user" />
           <Text>Perfil</Text>
         </Button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Form,
@@ -11,30 +11,33 @@ import {
   View,
 } from 'native-base';
 import Colors from '../../Colors';
+import { MaskService } from 'react-native-masked-text';
 
-interface ISignInDoctorForm {
+interface ISignInCompanyForm {
   loading: boolean;
-  onSignInDoctor: (form: IForm) => void;
+  onSignInCompany: (form: IForm) => void;
 }
 
 export interface IForm {
-  crm: string;
+  cnpj: string;
   password: string;
 }
 
-type IFormFields = 'crm' | 'password';
+type IFormFields = 'cnpj' | 'password';
 
-const SignInDoctorForm: React.FC<ISignInDoctorForm> = ({
+const SignInCompanyForm: React.FC<ISignInCompanyForm> = ({
   loading,
-  onSignInDoctor,
+  onSignInCompany,
 }) => {
+  const [cnpj, setCnpj] = useState('');
+
   const form = {
-    crm: '',
+    cnpj: '',
     password: '',
   };
 
   const handleCreateButton = (): void => {
-    onSignInDoctor(form);
+    onSignInCompany(form);
   };
 
   const FormItem = (name: string, field: IFormFields): React.ReactElement => (
@@ -43,10 +46,20 @@ const SignInDoctorForm: React.FC<ISignInDoctorForm> = ({
         <Label style={{ color: Colors.success, fontWeight: '600' }}>
           {name}
         </Label>
-        <Input
-          autoCapitalize="none"
-          onChangeText={(text) => (form[field] = text)}
-        />
+        {field === 'cnpj' ? (
+          <Input
+            value={cnpj}
+            onChangeText={(text) => {
+              form.cnpj = MaskService.toMask('cnpj', text);
+              setCnpj(MaskService.toMask('cnpj', text));
+            }}
+          />
+        ) : (
+          <Input
+            autoCapitalize="none"
+            onChangeText={(text) => (form[field] = text)}
+          />
+        )}
       </Item>
     </View>
   );
@@ -54,7 +67,7 @@ const SignInDoctorForm: React.FC<ISignInDoctorForm> = ({
   return (
     <View>
       <Form>
-        {FormItem('CRM', 'crm')}
+        {FormItem('CNPJ', 'cnpj')}
         {FormItem('Senha', 'password')}
       </Form>
       <View style={{ marginTop: 40, alignSelf: 'center' }}>
@@ -73,4 +86,4 @@ const SignInDoctorForm: React.FC<ISignInDoctorForm> = ({
   );
 };
 
-export default SignInDoctorForm;
+export default SignInCompanyForm;

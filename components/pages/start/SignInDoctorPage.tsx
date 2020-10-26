@@ -4,8 +4,9 @@ import { useMutation } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
 import SignInDoctorForm, { IForm } from '../../sign-in-forms/SignInDoctorForm';
-import SignInDoctor from '../../../graphql/mutations/SignInDoctor';
-import useToken from '../../../utils/useToken';
+import SignInDoctor, { Result } from '../../../graphql/mutations/SignInDoctor';
+import useUser, { User } from '../../../utils/useUser';
+import navigateToHome from '../../../utils/useHome';
 
 interface ISignInDoctorPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
@@ -15,42 +16,39 @@ const SignInDoctorPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const [sigInDoctor] = useMutation(SignInDoctor);
-  const { saveToken } = useToken();
+  const { saveUser } = useUser();
 
   const handleSignInDoctor = (form: IForm): void => {
-    navigation.reset({ index: 0, routes: [{ name: 'DoctorHome' }] });
+    setLoading(true);
+    const { crm, password } = form;
+    const hasError = validateForm(crm, password);
+    if (!hasError) {
+      sigInDoctor({ variables: { crm, password } })
+        .then((result) => {
+          const { errors, token }: Result = result.data.signInDoctor;
+          if (errors) {
+            Toast.show({
+              text: `Erro: ${errors}`,
+              type: 'danger',
+            });
+            setLoading(false);
+          } else {
+            const user: User = { token, type: 'Doctor' };
+            saveUser(user);
+            navigateToHome(user, navigation);
+          }
+        })
+        .catch(() => {
+          Toast.show({
+            text: 'Erro: Ops, algo deu errado!',
+            type: 'danger',
+          });
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   };
-
-  // const handleSignInDoctor = (form: IForm): void => {
-  //   setLoading(true);
-  //   const { crm, password } = form;
-  //   const hasError = validateForm(crm, password);
-  //   if (!hasError) {
-  //     sigInDoctor({ variables: { crm, password } })
-  //       .then((result) => {
-  //         const { errors, token } = result.data.signInDoctor;
-  //         if (errors) {
-  //           Toast.show({
-  //             text: `Erro: ${errors}`,
-  //             type: 'danger',
-  //           });
-  //           setLoading(false);
-  //         } else {
-  //           saveToken(token);
-  //           navigation.navigate('DoctorHomePage');
-  //         }
-  //       })
-  //       .catch(() => {
-  //         Toast.show({
-  //           text: 'Erro: Por favor, confirme seus dados',
-  //           type: 'danger',
-  //         });
-  //         setLoading(false);
-  //       });
-  //   } else {
-  //     setLoading(false);
-  //   }
-  // };
 
   const validateForm = (crm: string, password: string): boolean => {
     return validateField(crm, 'o CRM') || validateField(password, 'a Senha');

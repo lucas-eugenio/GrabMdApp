@@ -1,20 +1,20 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import RootStackParamList from '../../RootStackParamList';
+import RootStackParamList from '../../../RootStackParamList';
 import { Button, Container, Content, Icon, Text, View, H1 } from 'native-base';
 
-interface ILoginPage {
+interface IRegisterPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
 }
 
-const LoginPage: React.FC<ILoginPage> = ({ navigation }) => {
+const RegisterPage: React.FC<IRegisterPage> = ({ navigation }) => {
   return (
     <Container>
       <Content padder>
         <View style={{ alignItems: 'center' }}>
           <H1>Bem vindo ao GrabMD!</H1>
           <Text style={{ marginTop: 8, textAlign: 'center' }}>
-            Você é um Médico, representa uma Empresa ou um Gestor de Vagas?
+            Você é um Médico ou representa uma Empresa?
           </Text>
         </View>
         <View>
@@ -23,20 +23,9 @@ const LoginPage: React.FC<ILoginPage> = ({ navigation }) => {
             large
             iconLeft
             style={{ marginTop: 40, alignSelf: 'center' }}
-            onPress={() => navigation.navigate('SignInDoctor')}>
+            onPress={() => navigation.navigate('CreateDoctor')}>
             <Icon type="FontAwesome" name="user-md" />
-            <Text>Autenticar Médico</Text>
-          </Button>
-          <Button
-            light
-            large
-            bordered
-            iconLeft
-            style={{ marginTop: 12, alignSelf: 'center' }}
-            // onPress={() => navigation.navigate('CreateCompany')}
-          >
-            <Icon type="FontAwesome5" name="notes-medical" />
-            <Text>Autenticar Gestor</Text>
+            <Text>Cadastrar Médico</Text>
           </Button>
           <Button
             success
@@ -44,10 +33,9 @@ const LoginPage: React.FC<ILoginPage> = ({ navigation }) => {
             bordered
             iconLeft
             style={{ marginTop: 12, alignSelf: 'center' }}
-            // onPress={() => navigation.navigate('CreateCompany')}
-          >
+            onPress={() => navigation.navigate('CreateCompany')}>
             <Icon type="FontAwesome5" name="hospital" />
-            <Text>Autenticar Empresa</Text>
+            <Text>Cadastrar Empresa</Text>
           </Button>
         </View>
       </Content>
@@ -55,4 +43,4 @@ const LoginPage: React.FC<ILoginPage> = ({ navigation }) => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
