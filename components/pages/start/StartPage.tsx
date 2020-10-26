@@ -10,9 +10,11 @@ import {
   Toast,
   View,
   H1,
+  Spinner,
 } from 'native-base';
 import { RouteProp } from '@react-navigation/native';
-import useToken from '../../../utils/useToken';
+import useUser from '../../../utils/useUser';
+import navigateToHome from '../../../utils/useHome';
 
 interface IHomePage {
   navigation: StackNavigationProp<RootStackParamList, 'Start'>;
@@ -20,21 +22,22 @@ interface IHomePage {
 }
 
 const StartPage: React.FC<IHomePage> = ({ navigation, route }) => {
-  const { token, loading, resetToken } = useToken();
+  const { user, loading, logout } = useUser();
+
+  const showToast = (text: string) => Toast.show({ text, type: 'success' });
 
   useEffect(() => {
-    route.params?.createdDoctor &&
-      Toast.show({ text: 'Sucesso: Médico Criado', type: 'success' });
-    route.params?.createdCompany &&
-      Toast.show({ text: 'Sucesso: Empresa Criada', type: 'success' });
-    route.params?.deleteToken && resetToken();
+    route.params?.createdDoctor && showToast('Sucesso: Médico Criado');
+    route.params?.createdCompany && showToast('Sucesso: Empresa Criada');
   }, [route]);
 
-  // TODO: Remove This
   useEffect(() => {
-    !token && Toast.show({ text: 'Não tem Token', type: 'danger' });
-    token && Toast.show({ text: 'Tem Token', type: 'success' });
-  }, [loading]);
+    if (!route.params?.logout) {
+      user && navigateToHome(user, navigation);
+    } else {
+      logout();
+    }
+  }, [loading, route]);
 
   return (
     <Container>
@@ -45,11 +48,13 @@ const StartPage: React.FC<IHomePage> = ({ navigation, route }) => {
             Faça login ou cadastre-se para usar
           </Text>
         </View>
+        {loading && <Spinner />}
         <View>
           <Button
             success
             large
             iconLeft
+            disabled={loading}
             style={{ marginTop: 40, alignSelf: 'center' }}
             onPress={() => navigation.navigate('Login')}>
             <Icon type="FontAwesome" name="sign-in" />
@@ -60,6 +65,7 @@ const StartPage: React.FC<IHomePage> = ({ navigation, route }) => {
             large
             bordered
             iconLeft
+            disabled={loading}
             style={{ marginTop: 12, alignSelf: 'center' }}
             onPress={() => navigation.navigate('Register')}>
             <Icon type="FontAwesome" name="user-plus" />
