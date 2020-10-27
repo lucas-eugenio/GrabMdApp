@@ -8,7 +8,7 @@ const DoctorProfilePage: React.FC = () => {
         <View style={{ alignItems: 'center' }}>
           <H1>Bem vindo ao GrabMD!</H1>
           <Text style={{ marginTop: 8, textAlign: 'center' }}>
-            Profile Page
+            Doctor Profile Page
           </Text>
         </View>
       </Content>

@@ -42,7 +42,6 @@ const SignInCompanyPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
           }
         })
         .catch((error) => {
-          console.log(error);
           showError('Erro: Ops, algo deu errado!');
           setLoading(false);
         });
@@ -52,7 +51,6 @@ const SignInCompanyPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
   };
 
   const validateForm = (cnpj: string, password: string): boolean => {
-    console.log('CNPJ:', cnpj);
     return validateField(cnpj, 'o CNPJ') || validateField(password, 'a Senha');
   };
 
