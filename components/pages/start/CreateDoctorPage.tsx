@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Container, Content, View, Toast, Text, H1 } from 'native-base';
+import { Container, Content, View, Text, H1 } from 'native-base';
 import CreateDoctorForm, { IForm } from '../../create-forms/CreateDoctorForm';
-import CreateDoctor from '../../../graphql/mutations/CreateDoctor';
-import { useMutation } from '@apollo/client';
+import CreateDoctor, { Result } from '../../../graphql/mutations/CreateDoctor';
+import { FetchResult, useMutation } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
+import showError from '../../../utils/showError';
 
 interface ICreateDoctorPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
@@ -21,14 +22,17 @@ const CreateDoctorPage: React.FC<ICreateDoctorPage> = ({ navigation }) => {
     const hasError = validateForm(name, email, crm, password);
     if (!hasError) {
       createDoctor({ variables: { name, email, crm, password } })
-        .then(() => {
-          navigation.navigate('Start', { createdDoctor: true });
+        .then((result: FetchResult<Result>) => {
+          const errors = result.data?.createDoctor.errors;
+          if (errors) {
+            showError(`Erro: ${errors}`);
+            setLoading(false);
+          } else {
+            navigation.navigate('Start', { createdDoctor: true });
+          }
         })
         .catch(() => {
-          Toast.show({
-            text: 'Erro: Por favor, confirme seus dados',
-            type: 'danger',
-          });
+          showError('Erro: Por favor, confirme seus dados');
           setLoading(false);
         });
     } else {
@@ -52,10 +56,7 @@ const CreateDoctorPage: React.FC<ICreateDoctorPage> = ({ navigation }) => {
 
   const validateField = (field: string, message: string): boolean => {
     if (!field) {
-      Toast.show({
-        text: `Erro: Por favor, preencha ${message}`,
-        type: 'danger',
-      });
+      showError(`Erro: Por favor, preencha ${message}`);
       return true;
     }
     return false;

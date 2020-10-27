@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Content, View, Toast, Text, H1 } from 'native-base';
-import { useMutation } from '@apollo/client';
+import { Container, Content, View, Text, H1 } from 'native-base';
+import { FetchResult, useMutation } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
 import useUser, { User } from '../../../utils/useUser';
@@ -11,6 +11,7 @@ import SignInCompany, {
 import SignInCompanyForm, {
   IForm,
 } from '../../sign-in-forms/SignInCompanyForm';
+import showError from '../../../utils/showError';
 
 interface ISignInDoctorPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
@@ -22,16 +23,15 @@ const SignInCompanyPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
   const [sigInCompany] = useMutation(SignInCompany);
   const { saveUser } = useUser();
 
-  const showError = (text: string) => Toast.show({ text, type: 'danger' });
-
   const handleSignInDoctor = (form: IForm): void => {
     setLoading(true);
     const { cnpj, password } = form;
     const hasError = validateForm(cnpj, password);
     if (!hasError) {
       sigInCompany({ variables: { cnpj, password } })
-        .then((result) => {
-          const { errors, token }: Result = result.data.signInCompany;
+        .then((result: FetchResult<Result>) => {
+          const errors = result.data?.signInCompany.errors;
+          const token = result.data?.signInCompany.token || '';
           if (errors) {
             showError(`Erro: ${errors}`);
             setLoading(false);
@@ -58,10 +58,7 @@ const SignInCompanyPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
 
   const validateField = (field: string, message: string): boolean => {
     if (!field) {
-      Toast.show({
-        text: `Erro: Por favor, preencha ${message}`,
-        type: 'danger',
-      });
+      showError(`Erro: Por favor, preencha ${message}`);
       return true;
     }
     return false;

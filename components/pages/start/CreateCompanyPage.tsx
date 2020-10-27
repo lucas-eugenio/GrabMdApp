@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Container, Content, Text, Toast, View, H1 } from 'native-base';
+import { Container, Content, Text, View, H1 } from 'native-base';
 import CreateCompanyForm, { IForm } from '../../create-forms/CreateCompanyForm';
-import CreateCompany from '../../../graphql/mutations/CreateCompany';
-import { useMutation } from '@apollo/client';
+import CreateCompany, {
+  Result,
+} from '../../../graphql/mutations/CreateCompany';
+import { FetchResult, useMutation } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
+import showError from '../../../utils/showError';
 
 interface ICreateDoctorPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
@@ -21,14 +24,17 @@ const CreateCompanyPage: React.FC<ICreateDoctorPage> = ({ navigation }) => {
     const hasError = validateForm(name, email, cnpj, password);
     if (!hasError) {
       createCompany({ variables: { name, email, cnpj, password } })
-        .then(() => {
-          navigation.navigate('Start', { createdCompany: true });
+        .then((result: FetchResult<Result>) => {
+          const errors = result.data?.createCompany.errors;
+          if (errors) {
+            showError(`Erro: ${errors}`);
+            setLoading(false);
+          } else {
+            navigation.navigate('Start', { createdCompany: true });
+          }
         })
         .catch(() => {
-          Toast.show({
-            text: 'Erro: Por favor, confirme os dados',
-            type: 'danger',
-          });
+          showError('Erro: Por favor, confirme os dados');
           setLoading(false);
         });
     } else {
@@ -52,10 +58,7 @@ const CreateCompanyPage: React.FC<ICreateDoctorPage> = ({ navigation }) => {
 
   const validateField = (field: string, message: string): boolean => {
     if (!field) {
-      Toast.show({
-        text: `Erro: Por favor, preencha ${message}`,
-        type: 'danger',
-      });
+      showError(`Erro: Por favor, preencha ${message}`);
       return true;
     }
     return false;

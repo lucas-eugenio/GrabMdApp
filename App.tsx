@@ -15,10 +15,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import DoctorHomePage from './components/pages/doctor/DoctorHomePage';
 import DoctorFooter from './components/footers/DoctorFooter';
 import DoctorProfilePage from './components/pages/doctor/DoctorProfilePage';
-import CompanyProfilePage from './components/pages/company/CompanyProfilePage';
+import CompanyManagersPage from './components/pages/company/CompanyManagersPage';
 import CompanyFooter from './components/footers/CompanyFooter';
 import CompanyHomePage from './components/pages/company/CompanyHomePage';
 import SignInCompanyPage from './components/pages/start/SignInCompanyPage';
+import CompanyCreateManagerPage from './components/pages/company/CompanyCreateManagerPage';
 
 // Eventually this file will get too big, I know this issue.
 // But, to avoid problems on creating routes, keep all of them instanced here.
@@ -26,36 +27,51 @@ import SignInCompanyPage from './components/pages/start/SignInCompanyPage';
 
 const App = () => {
   const Stack = createStackNavigator();
-  const HomeTab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator();
 
   const DoctorTabScreen = () => (
-    <HomeTab.Navigator tabBar={DoctorFooter}>
-      <HomeTab.Screen
-        name="DoctorHome"
+    <Tab.Navigator tabBar={DoctorFooter}>
+      <Tab.Screen
+        name="Home"
         component={DoctorHomePage}
         options={{ title: 'Home' }}
       />
-      <HomeTab.Screen
-        name="DoctorProfile"
+      <Tab.Screen
+        name="Profile"
         component={DoctorProfilePage}
         options={{ title: 'Perfil' }}
       />
-    </HomeTab.Navigator>
+    </Tab.Navigator>
+  );
+
+  const CompanyManagerScreen = () => (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="CompanyManagers"
+        component={CompanyManagersPage}
+        options={{ title: 'Gestores' }}
+      />
+      <Stack.Screen
+        name="CreateCompanyManager"
+        component={CompanyCreateManagerPage}
+        options={{ title: 'Cadastrar Gestor' }}
+      />
+    </Stack.Navigator>
   );
 
   const CompanyTabScreen = () => (
-    <HomeTab.Navigator tabBar={CompanyFooter}>
-      <HomeTab.Screen
-        name="CompanyHome"
+    <Tab.Navigator tabBar={CompanyFooter}>
+      <Tab.Screen
+        name="Home"
         component={CompanyHomePage}
         options={{ title: 'Home' }}
       />
-      <HomeTab.Screen
-        name="CompanyProfile"
-        component={CompanyProfilePage}
-        options={{ title: 'Perfil' }}
+      <Tab.Screen
+        name="Managers"
+        component={CompanyManagerScreen}
+        options={{ title: 'Gestores' }}
       />
-    </HomeTab.Navigator>
+    </Tab.Navigator>
   );
 
   return (
@@ -99,7 +115,11 @@ const App = () => {
               options={{ title: 'Autenticar Empresa' }}
             />
             <Stack.Screen name="DoctorHome" component={DoctorTabScreen} />
-            <Stack.Screen name="CompanyHome" component={CompanyTabScreen} />
+            <Stack.Screen
+              name="Company"
+              component={CompanyTabScreen}
+              options={{ title: 'TESTE' }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Root>

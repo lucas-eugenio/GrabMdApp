@@ -10,8 +10,10 @@ const SignInCompany = gql`
 `;
 
 export interface Result {
-  errors: string;
-  token: string;
+  signInCompany: {
+    errors: string;
+    token: string;
+  };
 }
 
 export default SignInCompany;
