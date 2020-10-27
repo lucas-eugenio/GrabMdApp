@@ -15,11 +15,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import DoctorHomePage from './components/pages/doctor/DoctorHomePage';
 import DoctorFooter from './components/footers/DoctorFooter';
 import DoctorProfilePage from './components/pages/doctor/DoctorProfilePage';
-import CompanyManagersPage from './components/pages/company/CompanyManagersPage';
 import CompanyFooter from './components/footers/CompanyFooter';
-import CompanyHomePage from './components/pages/company/CompanyHomePage';
 import SignInCompanyPage from './components/pages/start/SignInCompanyPage';
-import CompanyCreateManagerPage from './components/pages/company/CompanyCreateManagerPage';
+import JourneysPage from './components/pages/company/JourneysPage';
+import SignInManagerPage from './components/pages/start/SignInManagerPage';
+import ManagerFooter from './components/footers/ManagerFooter';
+import CreateJourneyPage from './components/pages/company/CreateJourneysPage';
+import CreateManagerPage from './components/pages/company/CreateManagerPage';
+import ManagersPage from './components/pages/company/ManagersPage';
 
 // Eventually this file will get too big, I know this issue.
 // But, to avoid problems on creating routes, keep all of them instanced here.
@@ -29,7 +32,7 @@ const App = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
 
-  const DoctorTabScreen = (): React.ReactElement => (
+  const DoctorTabScreen = () => (
     <Tab.Navigator tabBar={DoctorFooter} initialRouteName="DoctorHome">
       <Tab.Screen
         name="DoctorHome"
@@ -44,33 +47,46 @@ const App = () => {
     </Tab.Navigator>
   );
 
-  const CompanyManagerScreen = () => (
-    <Stack.Navigator initialRouteName="CompanyManagersList">
+  const JourneysScreen = () => (
+    <Stack.Navigator initialRouteName="JourneysList">
       <Stack.Screen
-        name="CompanyManagersList"
-        component={CompanyManagersPage}
+        name="JourneysList"
+        component={JourneysPage}
+        options={{ title: 'Plantões' }}
+      />
+      <Stack.Screen
+        name="CreateJourney"
+        component={CreateJourneyPage}
+        options={{ title: 'Cadastrar Plantão' }}
+      />
+    </Stack.Navigator>
+  );
+
+  const ManagerScreen = () => (
+    <Stack.Navigator initialRouteName="ManagersList">
+      <Stack.Screen
+        name="ManagersList"
+        component={ManagersPage}
         options={{ title: 'Gestores' }}
       />
       <Stack.Screen
-        name="CompanyCreateManager"
-        component={CompanyCreateManagerPage}
+        name="CreateManager"
+        component={CreateManagerPage}
         options={{ title: 'Cadastrar Gestor' }}
       />
     </Stack.Navigator>
   );
 
-  const CompanyTabScreen = (): React.ReactElement => (
-    <Tab.Navigator tabBar={CompanyFooter} initialRouteName="CompanyHome">
-      <Tab.Screen
-        name="CompanyHome"
-        component={CompanyHomePage}
-        options={{ title: 'Home' }}
-      />
-      <Tab.Screen
-        name="CompanyManagers"
-        component={CompanyManagerScreen}
-        options={{ title: 'Gestores' }}
-      />
+  const CompanyTabScreen = () => (
+    <Tab.Navigator tabBar={CompanyFooter} initialRouteName="Journeys">
+      <Tab.Screen name="Journeys" component={JourneysScreen} />
+      <Tab.Screen name="Managers" component={ManagerScreen} />
+    </Tab.Navigator>
+  );
+
+  const ManagerTabScreen = () => (
+    <Tab.Navigator tabBar={ManagerFooter} initialRouteName="Journeys">
+      <Tab.Screen name="Journeys" component={JourneysScreen} />
     </Tab.Navigator>
   );
 
@@ -117,6 +133,11 @@ const App = () => {
               options={{ title: 'Autenticar Empresa' }}
             />
             <Stack.Screen
+              name="SignInManager"
+              component={SignInManagerPage}
+              options={{ title: 'Autenticar Gestor' }}
+            />
+            <Stack.Screen
               name="Doctor"
               component={DoctorTabScreen}
               options={{ headerShown: false }}
@@ -124,6 +145,11 @@ const App = () => {
             <Stack.Screen
               name="Company"
               component={CompanyTabScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Manager"
+              component={ManagerTabScreen}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

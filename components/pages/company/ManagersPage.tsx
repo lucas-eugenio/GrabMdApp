@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Content, View, H1, Button, Text, Icon } from 'native-base';
-import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
+import {
+  NavigationHelpers,
+  ParamListBase,
+  RouteProp,
+} from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import showSuccess from '../../../utils/showSuccess';
 import ManagersList from '../../managers-list/ManagersList';
+import RootStackParamList from '../../../RootStackParamList';
 
 interface ICompanyManagersPage {
-  route: any;
+  route: RouteProp<RootStackParamList, 'ManagersList'>;
   navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
 }
 
-const CompanyManagersPage: React.FC<ICompanyManagersPage> = ({
+const ManagersPage: React.FC<ICompanyManagersPage> = ({
   route,
   navigation,
 }) => {
@@ -28,7 +33,7 @@ const CompanyManagersPage: React.FC<ICompanyManagersPage> = ({
           <Button
             success
             iconLeft
-            onPress={() => navigation.navigate('CompanyCreateManager')}
+            onPress={() => navigation.navigate('CreateManager')}
             style={{ alignSelf: 'flex-end' }}>
             <Icon type="FontAwesome" name="user-plus" />
             <Text>Adicionar</Text>
@@ -40,4 +45,4 @@ const CompanyManagersPage: React.FC<ICompanyManagersPage> = ({
   );
 };
 
-export default CompanyManagersPage;
+export default ManagersPage;

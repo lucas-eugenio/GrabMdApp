@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Form,
@@ -22,31 +22,27 @@ export interface IForm {
   password: string;
 }
 
-type IFormFields = 'crm' | 'password';
-
 const SignInDoctorForm: React.FC<ISignInDoctorForm> = ({
   loading,
   onSignInDoctor,
 }) => {
-  const form = {
-    crm: '',
-    password: '',
-  };
+  const [crm, setCrm] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleCreateButton = (): void => {
-    onSignInDoctor(form);
+    onSignInDoctor({ crm, password });
   };
 
-  const FormItem = (name: string, field: IFormFields): React.ReactElement => (
+  const FormItem = (
+    name: string,
+    setState: (text: string) => void,
+  ): React.ReactElement => (
     <View>
       <Item floatingLabel style={{ marginTop: 24 }}>
         <Label style={{ color: Colors.success, fontWeight: '600' }}>
           {name}
         </Label>
-        <Input
-          autoCapitalize="none"
-          onChangeText={(text) => (form[field] = text)}
-        />
+        <Input autoCapitalize="none" onChangeText={(text) => setState(text)} />
       </Item>
     </View>
   );
@@ -54,8 +50,8 @@ const SignInDoctorForm: React.FC<ISignInDoctorForm> = ({
   return (
     <View>
       <Form>
-        {FormItem('CRM', 'crm')}
-        {FormItem('Senha', 'password')}
+        {FormItem('CRM', setCrm)}
+        {FormItem('Senha', setPassword)}
       </Form>
       <View style={{ marginTop: 40, alignSelf: 'center' }}>
         {loading && <Spinner />}

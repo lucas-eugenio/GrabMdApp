@@ -23,41 +23,38 @@ export interface IForm {
   password: string;
 }
 
-type IFormFields = 'cnpj' | 'password';
-
 const SignInCompanyForm: React.FC<ISignInCompanyForm> = ({
   loading,
   onSignInCompany,
 }) => {
   const [cnpj, setCnpj] = useState('');
-
-  const form = {
-    cnpj: '',
-    password: '',
-  };
+  const [password, setPassword] = useState('');
 
   const handleCreateButton = (): void => {
-    onSignInCompany(form);
+    onSignInCompany({ cnpj, password });
   };
 
-  const FormItem = (name: string, field: IFormFields): React.ReactElement => (
+  const FormItem = (
+    name: string,
+    setState: (text: string) => void,
+    isCnpj?: boolean,
+  ): React.ReactElement => (
     <View>
       <Item floatingLabel style={{ marginTop: 24 }}>
         <Label style={{ color: Colors.success, fontWeight: '600' }}>
           {name}
         </Label>
-        {field === 'cnpj' ? (
+        {isCnpj ? (
           <Input
             value={cnpj}
             onChangeText={(text) => {
-              form.cnpj = MaskService.toMask('cnpj', text);
-              setCnpj(MaskService.toMask('cnpj', text));
+              setState(MaskService.toMask('cnpj', text));
             }}
           />
         ) : (
           <Input
             autoCapitalize="none"
-            onChangeText={(text) => (form[field] = text)}
+            onChangeText={(text) => setState(text)}
           />
         )}
       </Item>
@@ -67,8 +64,8 @@ const SignInCompanyForm: React.FC<ISignInCompanyForm> = ({
   return (
     <View>
       <Form>
-        {FormItem('CNPJ', 'cnpj')}
-        {FormItem('Senha', 'password')}
+        {FormItem('CNPJ', setCnpj, true)}
+        {FormItem('Senha', setPassword)}
       </Form>
       <View style={{ marginTop: 40, alignSelf: 'center' }}>
         {loading && <Spinner />}

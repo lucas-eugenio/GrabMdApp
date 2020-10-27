@@ -3,41 +3,45 @@ import { Container, Content, View, Text, H1 } from 'native-base';
 import { FetchResult, useMutation } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
-import SignInDoctorForm, { IForm } from '../../sign-in-forms/SignInDoctorForm';
-import SignInDoctor, { Result } from '../../../graphql/mutations/SignInDoctor';
 import useUser, { User } from '../../../utils/useUser';
 import navigateToHome from '../../../utils/useHome';
 import showError from '../../../utils/showError';
+import SignInManagerForm, {
+  IForm,
+} from '../../sign-in-forms/SignInManagerForm';
+import SignInManager, {
+  Result,
+} from '../../../graphql/mutations/SignInManager';
 
-interface ISignInDoctorPage {
+interface ISignInManagerPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
 }
 
-const SignInDoctorPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
+const SignInManagerPage: React.FC<ISignInManagerPage> = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
-  const [sigInDoctor] = useMutation(SignInDoctor);
+  const [sigInCompany] = useMutation(SignInManager);
   const { saveUser } = useUser();
 
-  const handleSignInDoctor = (form: IForm): void => {
+  const handleSignInManager = (form: IForm): void => {
     setLoading(true);
-    const { crm, password } = form;
-    const hasError = validateForm(crm, password);
+    const { cpf, password } = form;
+    const hasError = validateForm(cpf, password);
     if (!hasError) {
-      sigInDoctor({ variables: { crm, password } })
+      sigInCompany({ variables: { cpf, password } })
         .then((result: FetchResult<Result>) => {
-          const errors = result.data?.signInDoctor.errors;
-          const token = result.data?.signInDoctor.token || '';
+          const errors = result.data?.signInManager.errors;
+          const token = result.data?.signInManager.token || '';
           if (errors) {
             showError(`Erro: ${errors}`);
             setLoading(false);
           } else {
-            const user: User = { token, type: 'Doctor' };
+            const user: User = { token, type: 'Manager' };
             saveUser(user);
             navigateToHome(user, navigation);
           }
         })
-        .catch(() => {
+        .catch((error) => {
           showError('Erro: Ops, algo deu errado!');
           setLoading(false);
         });
@@ -46,8 +50,8 @@ const SignInDoctorPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
     }
   };
 
-  const validateForm = (crm: string, password: string): boolean => {
-    return validateField(crm, 'o CRM') || validateField(password, 'a Senha');
+  const validateForm = (cpf: string, password: string): boolean => {
+    return validateField(cpf, 'o CPF') || validateField(password, 'a Senha');
   };
 
   const validateField = (field: string, message: string): boolean => {
@@ -70,13 +74,13 @@ const SignInDoctorPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
             Todas as informações são obrigatórias
           </Text>
         </View>
-        <SignInDoctorForm
+        <SignInManagerForm
           loading={loading}
-          onSignInDoctor={handleSignInDoctor}
+          onSignInManager={handleSignInManager}
         />
       </Content>
     </Container>
   );
 };
 
-export default SignInDoctorPage;
+export default SignInManagerPage;

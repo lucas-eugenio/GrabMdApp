@@ -11,15 +11,17 @@ export type RootStackParamList = {
   CreateCompany: undefined;
   SignInDoctor: undefined;
   SignInCompany: undefined;
+  SignInManager: undefined;
 
   // Doctor
   DoctorHome: undefined;
   DoctorProfile: undefined;
 
-  // Company
-  Company: undefined;
-  CompanyManagersList: { createdManager?: boolean };
-  CompanyCreateManager: undefined;
+  // Managers
+  ManagersList: { createdManager?: boolean };
+
+  // Journey
+  JourneysList: { createdJourney?: boolean };
 };
 
 export default RootStackParamList;

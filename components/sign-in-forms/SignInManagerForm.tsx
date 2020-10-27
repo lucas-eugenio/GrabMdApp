@@ -11,42 +11,52 @@ import {
   View,
 } from 'native-base';
 import Colors from '../../Colors';
+import { MaskService } from 'react-native-masked-text';
 
-interface ICreateDoctorForm {
+interface ISignInManagerForm {
   loading: boolean;
-  onCreateDoctor: (form: IForm) => void;
+  onSignInManager: (form: IForm) => void;
 }
 
 export interface IForm {
-  name: string;
-  email: string;
-  crm: string;
+  cpf: string;
   password: string;
 }
 
-const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
+const SignInManagerForm: React.FC<ISignInManagerForm> = ({
   loading,
-  onCreateDoctor,
+  onSignInManager,
 }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [crm, setCrm] = useState('');
+  const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
 
   const handleCreateButton = (): void => {
-    onCreateDoctor({ name, email, crm, password });
+    onSignInManager({ cpf, password });
   };
 
   const FormItem = (
     name: string,
     setState: (text: string) => void,
+    isCpf?: boolean,
   ): React.ReactElement => (
     <View>
       <Item floatingLabel style={{ marginTop: 24 }}>
         <Label style={{ color: Colors.success, fontWeight: '600' }}>
           {name}
         </Label>
-        <Input autoCapitalize="none" onChangeText={(text) => setState(text)} />
+        {isCpf ? (
+          <Input
+            value={cpf}
+            onChangeText={(text) => {
+              setState(MaskService.toMask('cpf', text));
+            }}
+          />
+        ) : (
+          <Input
+            autoCapitalize="none"
+            onChangeText={(text) => setState(text)}
+          />
+        )}
       </Item>
     </View>
   );
@@ -54,9 +64,7 @@ const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
   return (
     <View>
       <Form>
-        {FormItem('Nome Completo', setName)}
-        {FormItem('Email', setEmail)}
-        {FormItem('CRM', setCrm)}
+        {FormItem('CPF', setCpf, true)}
         {FormItem('Senha', setPassword)}
       </Form>
       <View style={{ marginTop: 40, alignSelf: 'center' }}>
@@ -67,12 +75,12 @@ const CreateDoctorForm: React.FC<ICreateDoctorForm> = ({
           iconLeft
           disabled={loading}
           onPress={handleCreateButton}>
-          <Icon type="FontAwesome" name="save" />
-          <Text>Criar</Text>
+          <Icon type="FontAwesome" name="sign-in" />
+          <Text>Entrar</Text>
         </Button>
       </View>
     </View>
   );
 };
 
-export default CreateDoctorForm;
+export default SignInManagerForm;

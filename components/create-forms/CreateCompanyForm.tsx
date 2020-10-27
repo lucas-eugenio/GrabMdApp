@@ -25,43 +25,40 @@ export interface IForm {
   password: string;
 }
 
-type IFormFields = 'name' | 'email' | 'cnpj' | 'password';
-
 const CreateCompanyForm: React.FC<ICreateCompanyForm> = ({
   loading,
   onCreateCompany,
 }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [cnpj, setCnpj] = useState('');
-
-  const form = {
-    name: '',
-    email: '',
-    cnpj: '',
-    password: '',
-  };
+  const [password, setPassword] = useState('');
 
   const handleCreateButton = (): void => {
-    onCreateCompany(form);
+    onCreateCompany({ name, email, cnpj, password });
   };
 
-  const FormItem = (name: string, field: IFormFields): React.ReactElement => (
+  const FormItem = (
+    name: string,
+    setState: (text: string) => void,
+    isCnpj?: boolean,
+  ): React.ReactElement => (
     <View>
       <Item floatingLabel style={{ marginTop: 24 }}>
         <Label style={{ color: Colors.success, fontWeight: '600' }}>
           {name}
         </Label>
-        {field === 'cnpj' ? (
+        {isCnpj ? (
           <Input
             value={cnpj}
             onChangeText={(text) => {
-              form.cnpj = MaskService.toMask('cnpj', text);
-              setCnpj(MaskService.toMask('cnpj', text));
+              setState(MaskService.toMask('cnpj', text));
             }}
           />
         ) : (
           <Input
             autoCapitalize="none"
-            onChangeText={(text) => (form[field] = text)}
+            onChangeText={(text) => setState(text)}
           />
         )}
       </Item>
@@ -71,10 +68,10 @@ const CreateCompanyForm: React.FC<ICreateCompanyForm> = ({
   return (
     <View>
       <Form>
-        {FormItem('Nome Fantasia', 'name')}
-        {FormItem('Email', 'email')}
-        {FormItem('CNPJ', 'cnpj')}
-        {FormItem('Senha', 'password')}
+        {FormItem('Nome Fantasia', setName)}
+        {FormItem('Email', setEmail)}
+        {FormItem('CNPJ', setCnpj, true)}
+        {FormItem('Senha', setPassword)}
       </Form>
       <View style={{ marginTop: 40, alignSelf: 'center' }}>
         {loading && <Spinner />}
