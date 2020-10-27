@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import CompanyFragment from '../fragments/CompanyFragment';
 
 const CreateCompany = gql`
   mutation CreateCompany(
@@ -12,12 +11,14 @@ const CreateCompany = gql`
       input: { name: $name, email: $email, cnpj: $cnpj, password: $password }
     ) {
       errors
-      company {
-        ...CompanyFragment
-      }
     }
   }
-  ${CompanyFragment}
 `;
+
+export interface Result {
+  createCompany: {
+    errors: string;
+  };
+}
 
 export default CreateCompany;

@@ -10,8 +10,10 @@ const SignInDoctor = gql`
 `;
 
 export interface Result {
-  errors: string;
-  token: string;
+  signInDoctor: {
+    errors: string;
+    token: string;
+  };
 }
 
 export default SignInDoctor;

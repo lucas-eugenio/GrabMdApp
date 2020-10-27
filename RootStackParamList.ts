@@ -17,8 +17,11 @@ export type RootStackParamList = {
   DoctorProfile: undefined;
 
   // Company
+  Company: undefined;
   CompanyHome: undefined;
-  CompanyProfile: undefined;
+  CompanyManagers: undefined;
+  CompanyCreateManager: undefined;
+  Managers: undefined;
 };
 
 export default RootStackParamList;

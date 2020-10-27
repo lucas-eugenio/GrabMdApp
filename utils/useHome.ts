@@ -6,14 +6,14 @@ const navigateToHome = (
   user: User,
   navigation: StackNavigationProp<RootStackParamList, 'Start' | 'Register'>,
 ): void => {
-  const navigate = (name: string) =>
-    navigation.reset({ index: 0, routes: [{ name }] });
+  const navigate = (name: string, screen: string) =>
+    navigation.reset({ index: 0, routes: [{ name, params: { screen } }] });
 
   switch (user.type) {
     case 'Doctor':
-      navigate('DoctorHome');
+      navigate('Doctor', 'Home');
     case 'Company':
-      navigate('CompanyHome');
+      navigate('Company', 'Home');
     default:
       return;
   }

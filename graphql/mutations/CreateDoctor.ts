@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import DoctorFragment from '../fragments/DoctorFragment';
 
 const CreateDoctor = gql`
   mutation CreateDoctor(
@@ -12,12 +11,14 @@ const CreateDoctor = gql`
       input: { name: $name, email: $email, crm: $crm, password: $password }
     ) {
       errors
-      doctor {
-        ...DoctorFragment
-      }
     }
   }
-  ${DoctorFragment}
 `;
+
+export interface Result {
+  createDoctor: {
+    errors: string;
+  };
+}
 
 export default CreateDoctor;

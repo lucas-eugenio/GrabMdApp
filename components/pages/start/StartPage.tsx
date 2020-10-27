@@ -7,7 +7,6 @@ import {
   Content,
   Icon,
   Text,
-  Toast,
   View,
   H1,
   Spinner,
@@ -15,6 +14,7 @@ import {
 import { RouteProp } from '@react-navigation/native';
 import useUser from '../../../utils/useUser';
 import navigateToHome from '../../../utils/useHome';
+import showSuccess from '../../../utils/showSuccess';
 
 interface IHomePage {
   navigation: StackNavigationProp<RootStackParamList, 'Start'>;
@@ -24,18 +24,16 @@ interface IHomePage {
 const StartPage: React.FC<IHomePage> = ({ navigation, route }) => {
   const { user, loading, logout } = useUser();
 
-  const showToast = (text: string) => Toast.show({ text, type: 'success' });
-
   useEffect(() => {
-    route.params?.createdDoctor && showToast('Sucesso: Médico Criado');
-    route.params?.createdCompany && showToast('Sucesso: Empresa Criada');
+    route.params?.createdDoctor && showSuccess('Sucesso: Médico Criado');
+    route.params?.createdCompany && showSuccess('Sucesso: Empresa Criada');
   }, [route]);
 
   useEffect(() => {
-    if (!route.params?.logout) {
-      user && navigateToHome(user, navigation);
-    } else {
+    if (route.params?.logout) {
       logout();
+    } else {
+      user && navigateToHome(user, navigation);
     }
   }, [loading, route]);
 

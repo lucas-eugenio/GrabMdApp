@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Container, Content, View, Toast, Text, H1 } from 'native-base';
-import { useMutation } from '@apollo/client';
+import { Container, Content, View, Text, H1 } from 'native-base';
+import { FetchResult, useMutation } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
 import SignInDoctorForm, { IForm } from '../../sign-in-forms/SignInDoctorForm';
 import SignInDoctor, { Result } from '../../../graphql/mutations/SignInDoctor';
 import useUser, { User } from '../../../utils/useUser';
 import navigateToHome from '../../../utils/useHome';
+import showError from '../../../utils/showError';
 
 interface ISignInDoctorPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
@@ -24,13 +25,11 @@ const SignInDoctorPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
     const hasError = validateForm(crm, password);
     if (!hasError) {
       sigInDoctor({ variables: { crm, password } })
-        .then((result) => {
-          const { errors, token }: Result = result.data.signInDoctor;
+        .then((result: FetchResult<Result>) => {
+          const errors = result.data?.signInDoctor.errors;
+          const token = result.data?.signInDoctor.token || '';
           if (errors) {
-            Toast.show({
-              text: `Erro: ${errors}`,
-              type: 'danger',
-            });
+            showError(`Erro: ${errors}`);
             setLoading(false);
           } else {
             const user: User = { token, type: 'Doctor' };
@@ -39,10 +38,7 @@ const SignInDoctorPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
           }
         })
         .catch(() => {
-          Toast.show({
-            text: 'Erro: Ops, algo deu errado!',
-            type: 'danger',
-          });
+          showError('Erro: Ops, algo deu errado!');
           setLoading(false);
         });
     } else {
@@ -56,10 +52,7 @@ const SignInDoctorPage: React.FC<ISignInDoctorPage> = ({ navigation }) => {
 
   const validateField = (field: string, message: string): boolean => {
     if (!field) {
-      Toast.show({
-        text: `Erro: Por favor, preencha ${message}`,
-        type: 'danger',
-      });
+      showError(`Erro: Por favor, preencha ${message}`);
       return true;
     }
     return false;
