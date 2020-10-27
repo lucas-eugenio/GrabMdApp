@@ -3,21 +3,17 @@ import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/t
 import { Button, Footer, FooterTab, Icon, Text } from 'native-base';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 
-interface ICompanyFooter {
+interface IManagerFooter {
   navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
 }
 
-const CompanyFooter: React.FC<ICompanyFooter> = ({ navigation }) => {
+const ManagerFooter: React.FC<IManagerFooter> = ({ navigation }) => {
   return (
     <Footer>
       <FooterTab>
         <Button vertical onPress={() => navigation.navigate('Journeys')}>
           <Icon type="FontAwesome5" name="briefcase-medical" />
           <Text>Plantões</Text>
-        </Button>
-        <Button vertical onPress={() => navigation.navigate('Managers')}>
-          <Icon type="FontAwesome5" name="id-card-alt" />
-          <Text>Gestores</Text>
         </Button>
         <Button
           vertical
@@ -35,4 +31,4 @@ const CompanyFooter: React.FC<ICompanyFooter> = ({ navigation }) => {
   );
 };
 
-export default CompanyFooter;
+export default ManagerFooter;

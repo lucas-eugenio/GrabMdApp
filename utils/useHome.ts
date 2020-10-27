@@ -13,6 +13,8 @@ const navigateToHome = (
     navigate('Doctor');
   } else if (user.type === 'Company') {
     navigate('Company');
+  } else if (user.type === 'Manager') {
+    navigate('Manager');
   }
 };
 

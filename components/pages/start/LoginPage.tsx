@@ -32,8 +32,9 @@ const LoginPage: React.FC<ILoginPage> = ({ navigation }) => {
             large
             bordered
             iconLeft
-            style={{ marginTop: 12, alignSelf: 'center' }}>
-            <Icon type="FontAwesome5" name="notes-medical" />
+            style={{ marginTop: 12, alignSelf: 'center' }}
+            onPress={() => navigation.navigate('SignInManager')}>
+            <Icon type="FontAwesome5" name="id-card-alt" />
             <Text>Autenticar Gestor</Text>
           </Button>
           <Button

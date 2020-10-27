@@ -11,10 +11,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
 
 interface ICompanyCreateManagerPage {
-  navigation: StackNavigationProp<RootStackParamList, 'Start'>;
+  navigation: StackNavigationProp<RootStackParamList, 'ManagersList'>;
 }
 
-const CompanyCreateManagerPage: React.FC<ICompanyCreateManagerPage> = ({
+const CreateManagerPage: React.FC<ICompanyCreateManagerPage> = ({
   navigation,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ const CompanyCreateManagerPage: React.FC<ICompanyCreateManagerPage> = ({
             showError(`Erro: ${errors}`);
             setLoading(false);
           } else {
-            navigation.navigate('CompanyManagersList', {
+            navigation.navigate('ManagersList', {
               createdManager: true,
             });
           }
@@ -93,4 +93,4 @@ const CompanyCreateManagerPage: React.FC<ICompanyCreateManagerPage> = ({
   );
 };
 
-export default CompanyCreateManagerPage;
+export default CreateManagerPage;

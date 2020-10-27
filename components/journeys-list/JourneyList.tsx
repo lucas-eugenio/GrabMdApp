@@ -1,42 +1,42 @@
 import React, { useState } from 'react';
 import { Card, CardItem, Spinner, Text, View } from 'native-base';
-import ManagerCard from './ManagerCard';
 import Pagination from '../pagination/Pagination';
 import useUser from '../../utils/useUser';
 import { useQuery } from '@apollo/client';
-import MyManagers, { Result } from '../../graphql/queries/MyManagers';
 import showError from '../../utils/showError';
 import Colors from '../../Colors';
+import MyJourneys, { Result } from '../../graphql/queries/MyJourneys';
+import JourneyCard from './JourneyCard';
 
-const ManagersList: React.FC = () => {
+const JourneyList: React.FC = () => {
   const [page, setPage] = useState(1);
 
   const token = useUser().user?.token;
 
-  const { data, loading, error } = useQuery<Result>(MyManagers, {
+  const { data, loading, error } = useQuery<Result>(MyJourneys, {
     variables: { token, page },
   });
 
-  const errors = data?.myManagers.errors;
+  const errors = data?.myJourneys.errors;
   errors && showError(`Erro: ${errors}`);
 
-  const managers = data?.myManagers.managers;
+  const journeys = data?.myJourneys.journeys;
 
-  const hasManagers = managers && managers.length > 0;
-  const showPagination = hasManagers && !error && !errors;
+  const hasJourneys = journeys && journeys.length > 0;
+  const showPagination = hasJourneys && !error && !errors;
   const hasError = error || errors;
 
   return (
     <View>
-      <View style={{ marginTop: 10, marginBottom: 30 }}>
-        {hasManagers ? (
+      <View style={{ marginTop: 30, marginBottom: 30 }}>
+        {hasJourneys ? (
           <View>
-            {managers?.map((manager) => (
-              <ManagerCard
-                key={manager.id}
-                name={manager.name}
-                email={manager.email}
-                cpf={manager.cpf}
+            {journeys?.map((journey) => (
+              <JourneyCard
+                key={journey.id}
+                name={journey.name}
+                address={journey.address}
+                date={journey.date}
               />
             ))}
           </View>
@@ -57,7 +57,7 @@ const ManagersList: React.FC = () => {
                     color: Colors.success,
                     fontWeight: '600',
                   }}>
-                  Sua Empresa ainda não tem um Gestor!
+                  Sua Empresa ainda não tem um Plantão!
                 </Text>
               )}
             </CardItem>
@@ -68,7 +68,7 @@ const ManagersList: React.FC = () => {
       {showPagination && (
         <Pagination
           page={page}
-          pageCount={data?.myManagers.pagination.pageCount || 1}
+          pageCount={data?.myJourneys.pagination.pageCount || 1}
           onPageChange={setPage}
           disabled={loading}
         />
@@ -77,4 +77,4 @@ const ManagersList: React.FC = () => {
   );
 };
 
-export default ManagersList;
+export default JourneyList;
