@@ -18,10 +18,7 @@ export type RootStackParamList = {
 
   // Company
   Company: undefined;
-  CompanyHome: undefined;
-  CompanyManagers: undefined;
   CompanyCreateManager: undefined;
-  Managers: undefined;
 };
 
 export default RootStackParamList;

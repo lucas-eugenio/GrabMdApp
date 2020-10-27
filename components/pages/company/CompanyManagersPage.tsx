@@ -14,8 +14,6 @@ const CompanyManagersPage: React.FC<ICompanyManagersPage> = ({
   route,
   navigation,
 }) => {
-  console.log(route);
-
   const [page, setPage] = useState(1);
 
   return (
@@ -28,7 +26,7 @@ const CompanyManagersPage: React.FC<ICompanyManagersPage> = ({
           <Button
             success
             iconLeft
-            onPress={() => navigation.navigate('CreateCompanyManager')}
+            onPress={() => navigation.navigate('CompanyCreateManager')}
             style={{ alignSelf: 'flex-end' }}>
             <Icon type="FontAwesome" name="user-plus" />
             <Text>Adicionar</Text>

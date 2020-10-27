@@ -29,15 +29,15 @@ const App = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
 
-  const DoctorTabScreen = () => (
-    <Tab.Navigator tabBar={DoctorFooter}>
+  const DoctorTabScreen = (): React.ReactElement => (
+    <Tab.Navigator tabBar={DoctorFooter} initialRouteName="DoctorHome">
       <Tab.Screen
-        name="Home"
+        name="DoctorHome"
         component={DoctorHomePage}
         options={{ title: 'Home' }}
       />
       <Tab.Screen
-        name="Profile"
+        name="DoctorProfile"
         component={DoctorProfilePage}
         options={{ title: 'Perfil' }}
       />
@@ -45,29 +45,29 @@ const App = () => {
   );
 
   const CompanyManagerScreen = () => (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="CompanyManagersList">
       <Stack.Screen
-        name="CompanyManagers"
+        name="CompanyManagersList"
         component={CompanyManagersPage}
         options={{ title: 'Gestores' }}
       />
       <Stack.Screen
-        name="CreateCompanyManager"
+        name="CompanyCreateManager"
         component={CompanyCreateManagerPage}
         options={{ title: 'Cadastrar Gestor' }}
       />
     </Stack.Navigator>
   );
 
-  const CompanyTabScreen = () => (
-    <Tab.Navigator tabBar={CompanyFooter}>
+  const CompanyTabScreen = (): React.ReactElement => (
+    <Tab.Navigator tabBar={CompanyFooter} initialRouteName="CompanyHome">
       <Tab.Screen
-        name="Home"
+        name="CompanyHome"
         component={CompanyHomePage}
         options={{ title: 'Home' }}
       />
       <Tab.Screen
-        name="Managers"
+        name="CompanyManagers"
         component={CompanyManagerScreen}
         options={{ title: 'Gestores' }}
       />
@@ -78,7 +78,9 @@ const App = () => {
     <ApolloProvider client={ApolloClient}>
       <Root>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Start">
+          <Stack.Navigator
+            initialRouteName="Start"
+            screenOptions={{ headerShown: true }}>
             <Stack.Screen
               name="Start"
               component={StartPage}
@@ -114,11 +116,15 @@ const App = () => {
               component={SignInCompanyPage}
               options={{ title: 'Autenticar Empresa' }}
             />
-            <Stack.Screen name="DoctorHome" component={DoctorTabScreen} />
+            <Stack.Screen
+              name="Doctor"
+              component={DoctorTabScreen}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="Company"
               component={CompanyTabScreen}
-              options={{ title: 'TESTE' }}
+              options={{ headerShown: false }}
             />
           </Stack.Navigator>
         </NavigationContainer>
