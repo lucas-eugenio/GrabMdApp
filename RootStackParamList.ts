@@ -18,6 +18,7 @@ export type RootStackParamList = {
 
   // Company
   Company: undefined;
+  CompanyManagersList: { createdManager?: boolean };
   CompanyCreateManager: undefined;
 };
 

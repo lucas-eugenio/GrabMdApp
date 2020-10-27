@@ -9,4 +9,11 @@ const ManagerFragment = gql`
   }
 `;
 
+export interface IManagerFragment {
+  id: string;
+  cpf: string;
+  name: string;
+  email: string;
+}
+
 export default ManagerFragment;

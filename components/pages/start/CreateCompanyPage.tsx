@@ -70,7 +70,7 @@ const CreateCompanyPage: React.FC<ICreateDoctorPage> = ({ navigation }) => {
         <View style={{ alignItems: 'center' }}>
           <H1>Bem vindo ao GrabMD!</H1>
           <Text style={{ marginTop: 8, textAlign: 'center' }}>
-            Preencha as informações da empresa
+            Preencha as informações da Empresa
           </Text>
           <Text style={{ marginTop: 20, fontWeight: '600' }}>
             Todas as informações são obrigatórias

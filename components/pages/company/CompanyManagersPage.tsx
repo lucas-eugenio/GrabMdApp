@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Content, View, H1, Button, Text, Icon } from 'native-base';
-import ManagerCard from '../../manager-card-list/ManagerCard';
-import Pagination from '../../pagination/Pagination';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
+import showSuccess from '../../../utils/showSuccess';
+import ManagersList from '../../managers-list/ManagersList';
 
 interface ICompanyManagersPage {
   route: any;
@@ -14,7 +14,9 @@ const CompanyManagersPage: React.FC<ICompanyManagersPage> = ({
   route,
   navigation,
 }) => {
-  const [page, setPage] = useState(1);
+  useEffect(() => {
+    route.params?.createdManager && showSuccess('Sucesso: Gestor Criado');
+  });
 
   return (
     <Container>
@@ -32,24 +34,7 @@ const CompanyManagersPage: React.FC<ICompanyManagersPage> = ({
             <Text>Adicionar</Text>
           </Button>
         </View>
-        <View style={{ marginTop: 10, marginBottom: 30 }}>
-          <ManagerCard
-            name="Lucas Eugênio"
-            email="lucasseugenio@hotmail.com"
-            cpf="429.940.748-26"
-          />
-          <ManagerCard
-            name="Lucas Eugênio"
-            email="lucasseugenio@hotmail.com"
-            cpf="429.940.748-26"
-          />
-          <ManagerCard
-            name="Lucas Eugênio"
-            email="lucasseugenio@hotmail.com"
-            cpf="429.940.748-26"
-          />
-        </View>
-        <Pagination page={page} pageCount={1} onPageChange={setPage} />
+        <ManagersList />
       </Content>
     </Container>
   );
