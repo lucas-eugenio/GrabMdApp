@@ -19,9 +19,19 @@ const ManagersPage: React.FC<ICompanyManagersPage> = ({
   route,
   navigation,
 }) => {
+  const [doRefetch, setDoRefetch] = useState(false);
+
+  const onCreateManager = () => {
+    setDoRefetch(true);
+    showSuccess('Sucesso: Gestor Criado');
+    setTimeout(() => {
+      setDoRefetch(false), 500;
+    });
+  };
+
   useEffect(() => {
-    route.params?.createdManager && showSuccess('Sucesso: Gestor Criado');
-  });
+    route.params?.createdManager && onCreateManager();
+  }, [route]);
 
   return (
     <Container>
@@ -39,7 +49,7 @@ const ManagersPage: React.FC<ICompanyManagersPage> = ({
             <Text>Adicionar</Text>
           </Button>
         </View>
-        <ManagersList />
+        <ManagersList doRefetch={doRefetch} />
       </Content>
     </Container>
   );

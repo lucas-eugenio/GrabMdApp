@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-const CreateManager = gql`
-  mutation CreateManager(
+const CreateJourney = gql`
+  mutation CreateJourney(
     $token: String!
     $name: String!
     $date: String!
@@ -36,4 +36,4 @@ export interface Result {
   };
 }
 
-export default CreateManager;
+export default CreateJourney;
