@@ -26,13 +26,13 @@ const JourneyCard: React.FC<IJourneyCard> = ({ name, address, date }) => {
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         <View>
           {NameItem('Nome:')}
-          {NameItem('Localização:')}
           {NameItem('Data:')}
+          {NameItem('Localização:')}
         </View>
         <View>
           {ValueItem(name)}
-          {ValueItem(address)}
           {ValueItem(date)}
+          {ValueItem(address)}
         </View>
       </View>
       <View style={{ marginTop: 20 }}>

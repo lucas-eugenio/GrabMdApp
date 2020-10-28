@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Content, Text, View, H1, Button, Icon } from 'native-base';
-import JourneyList from '../../journeys-list/JourneyList';
+import JourneysList from '../../journeys-list/JourneysList';
 import {
   NavigationHelpers,
   ParamListBase,
@@ -8,6 +8,7 @@ import {
 } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import RootStackParamList from '../../../RootStackParamList';
+import showSuccess from '../../../utils/showSuccess';
 
 interface IJourneysPage {
   route: RouteProp<RootStackParamList, 'JourneysList'>;
@@ -15,6 +16,20 @@ interface IJourneysPage {
 }
 
 const JourneysPage: React.FC<IJourneysPage> = ({ route, navigation }) => {
+  const [doRefetch, setDoRefetch] = useState(false);
+
+  const onCreateJourney = () => {
+    setDoRefetch(true);
+    showSuccess('Sucesso: Plantão Criado');
+    setTimeout(() => {
+      setDoRefetch(false), 500;
+    });
+  };
+
+  useEffect(() => {
+    route.params?.createdJourney && onCreateJourney();
+  }, [route]);
+
   return (
     <Container>
       <Content padder>
@@ -27,11 +42,11 @@ const JourneysPage: React.FC<IJourneysPage> = ({ route, navigation }) => {
             iconLeft
             style={{ alignSelf: 'flex-end' }}
             onPress={() => navigation.navigate('CreateJourney')}>
-            <Icon type="FontAwesome" name="plus" />
-            <Text>Adicionar</Text>
+            <Icon type="FontAwesome5" name="calendar-plus" />
+            <Text>Marcar</Text>
           </Button>
         </View>
-        <JourneyList />
+        <JourneysList doRefetch={doRefetch} />
       </Content>
     </Container>
   );

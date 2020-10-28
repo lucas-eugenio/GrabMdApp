@@ -17,10 +17,10 @@ import DoctorFooter from './components/footers/DoctorFooter';
 import DoctorProfilePage from './components/pages/doctor/DoctorProfilePage';
 import CompanyFooter from './components/footers/CompanyFooter';
 import SignInCompanyPage from './components/pages/start/SignInCompanyPage';
-import JourneysPage from './components/pages/company/JourneysPage';
+import JourneysPage from './components/pages/shared/JourneysPage';
 import SignInManagerPage from './components/pages/start/SignInManagerPage';
 import ManagerFooter from './components/footers/ManagerFooter';
-import CreateJourneyPage from './components/pages/company/CreateJourneysPage';
+import CreateJourneyPage from './components/pages/shared/CreateJourneysPage';
 import CreateManagerPage from './components/pages/company/CreateManagerPage';
 import ManagersPage from './components/pages/company/ManagersPage';
 

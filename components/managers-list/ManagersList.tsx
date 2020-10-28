@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardItem, Spinner, Text, View } from 'native-base';
 import ManagerCard from './ManagerCard';
 import Pagination from '../pagination/Pagination';
@@ -8,14 +8,22 @@ import MyManagers, { Result } from '../../graphql/queries/MyManagers';
 import showError from '../../utils/showError';
 import Colors from '../../Colors';
 
-const ManagersList: React.FC = () => {
+interface IManagersList {
+  doRefetch: boolean;
+}
+
+const ManagersList: React.FC<IManagersList> = ({ doRefetch }) => {
   const [page, setPage] = useState(1);
 
   const token = useUser().user?.token;
 
-  const { data, loading, error } = useQuery<Result>(MyManagers, {
+  const { data, loading, error, refetch } = useQuery<Result>(MyManagers, {
     variables: { token, page },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [doRefetch]);
 
   const errors = data?.myManagers.errors;
   errors && showError(`Erro: ${errors}`);
@@ -43,22 +51,26 @@ const ManagersList: React.FC = () => {
         ) : (
           <Card>
             <CardItem style={{ justifyContent: 'center' }}>
-              {hasError ? (
-                <Text
-                  style={{
-                    color: Colors.danger,
-                    fontWeight: '600',
-                  }}>
-                  Ops! Algo deu errado.
-                </Text>
-              ) : (
-                <Text
-                  style={{
-                    color: Colors.success,
-                    fontWeight: '600',
-                  }}>
-                  Sua Empresa ainda não tem um Gestor!
-                </Text>
+              {!loading && (
+                <View>
+                  {hasError ? (
+                    <Text
+                      style={{
+                        color: Colors.danger,
+                        fontWeight: '600',
+                      }}>
+                      Ops! Algo deu errado.
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        color: Colors.success,
+                        fontWeight: '600',
+                      }}>
+                      Sua Empresa ainda não tem um Gestor!
+                    </Text>
+                  )}
+                </View>
               )}
             </CardItem>
           </Card>

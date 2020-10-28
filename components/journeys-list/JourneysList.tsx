@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardItem, Spinner, Text, View } from 'native-base';
 import Pagination from '../pagination/Pagination';
 import useUser from '../../utils/useUser';
@@ -8,14 +8,22 @@ import Colors from '../../Colors';
 import MyJourneys, { Result } from '../../graphql/queries/MyJourneys';
 import JourneyCard from './JourneyCard';
 
-const JourneyList: React.FC = () => {
+interface IJourneysList {
+  doRefetch: boolean;
+}
+
+const JourneysList: React.FC<IJourneysList> = ({ doRefetch }) => {
   const [page, setPage] = useState(1);
 
   const token = useUser().user?.token;
 
-  const { data, loading, error } = useQuery<Result>(MyJourneys, {
+  const { data, loading, error, refetch } = useQuery<Result>(MyJourneys, {
     variables: { token, page },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [doRefetch]);
 
   const errors = data?.myJourneys.errors;
   errors && showError(`Erro: ${errors}`);
@@ -43,22 +51,26 @@ const JourneyList: React.FC = () => {
         ) : (
           <Card>
             <CardItem style={{ justifyContent: 'center' }}>
-              {hasError ? (
-                <Text
-                  style={{
-                    color: Colors.danger,
-                    fontWeight: '600',
-                  }}>
-                  Ops! Algo deu errado.
-                </Text>
-              ) : (
-                <Text
-                  style={{
-                    color: Colors.success,
-                    fontWeight: '600',
-                  }}>
-                  Sua Empresa ainda não tem um Plantão!
-                </Text>
+              {!loading && (
+                <View>
+                  {hasError ? (
+                    <Text
+                      style={{
+                        color: Colors.danger,
+                        fontWeight: '600',
+                      }}>
+                      Ops! Algo deu errado.
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        color: Colors.success,
+                        fontWeight: '600',
+                      }}>
+                      Sua Empresa ainda não tem um Plantão!
+                    </Text>
+                  )}
+                </View>
               )}
             </CardItem>
           </Card>
@@ -77,4 +89,4 @@ const JourneyList: React.FC = () => {
   );
 };
 
-export default JourneyList;
+export default JourneysList;
