@@ -15,9 +15,9 @@ const DoctorFooter: React.FC<IDoctorFooter> = ({ navigation }) => {
           <Icon type="FontAwesome5" name="clinic-medical" />
           <Text>Home</Text>
         </Button>
-        <Button vertical onPress={() => navigation.navigate('DoctorProfile')}>
-          <Icon type="FontAwesome5" name="user" />
-          <Text>Perfil</Text>
+        <Button vertical onPress={() => navigation.navigate('FindJourneys')}>
+          <Icon type="FontAwesome5" name="briefcase-medical" />
+          <Text>Plantões</Text>
         </Button>
         <Button
           vertical

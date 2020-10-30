@@ -46,7 +46,7 @@ const JourneysPage: React.FC<IJourneysPage> = ({ route, navigation }) => {
             <Text>Marcar</Text>
           </Button>
         </View>
-        <JourneysList doRefetch={doRefetch} />
+        <JourneysList doRefetch={doRefetch} navigation={navigation} />
       </Content>
     </Container>
   );

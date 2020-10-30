@@ -6,7 +6,6 @@ import {
   Input,
   Item,
   Label,
-  Spinner,
   Text,
   View,
 } from 'native-base';
@@ -18,29 +17,27 @@ import {
   translatePaymentMethod,
 } from '../../utils/translate';
 
-interface ICreateJourneyForm {
-  loading: boolean;
-  onCreateJourney: (form: IForm) => void;
+interface IFilterJourneysForm {
+  onFilterJourneys: (form: IForm) => void;
 }
 
 export interface IForm {
-  name: string;
-  date: string;
-  paymentDate: string;
-  wage: number;
-  address: string;
+  startDate?: string;
+  endDate?: string;
+  endPaymentDate?: string;
+  wage?: number;
+  address?: string;
   paymentMethod?: string;
   providesPpe?: boolean;
   hireEntity?: string;
 }
 
-const CreateJourneyForm: React.FC<ICreateJourneyForm> = ({
-  loading,
-  onCreateJourney,
+const FilterJourneysForm: React.FC<IFilterJourneysForm> = ({
+  onFilterJourneys,
 }) => {
-  const [name, setName] = useState('');
-  const [date, setDate] = useState('');
-  const [paymentDate, setPaymentDate] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [endPaymentDate, setEndPaymentDate] = useState('');
   const [wage, setWage] = useState('');
   const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<string | undefined>(
@@ -54,11 +51,11 @@ const CreateJourneyForm: React.FC<ICreateJourneyForm> = ({
   const formatWage = (): number =>
     parseFloat(wage.replace('R$', '').replace('.', '').replace(',', '.'));
 
-  const handleCreateButton = (): void => {
-    onCreateJourney({
-      name,
-      date: date ? `${date} -0300` : '',
-      paymentDate: paymentDate ? `${paymentDate} -0300` : '',
+  const handleFilterButton = (): void => {
+    onFilterJourneys({
+      startDate: startDate ? `${startDate} -0300` : '',
+      endDate: endDate ? `${endDate} -0300` : '',
+      endPaymentDate: endPaymentDate ? `${endPaymentDate} -0300` : '',
       wage: formatWage(),
       address,
       paymentMethod,
@@ -122,26 +119,26 @@ const CreateJourneyForm: React.FC<ICreateJourneyForm> = ({
     <View>
       <Form>
         {FormItem(
-          '* Nome:',
-          <Input
-            autoCapitalize="none"
-            onChangeText={(text) => setName(text)}
-          />,
-        )}
-        {FormItem('* Data e Hora do Plantão:', DateTimeInput(date, setDate))}
-        {FormItem(
-          '* Data e Hora do Pagamento:',
-          DateTimeInput(paymentDate, setPaymentDate),
+          'Mínima Data e Hora do Plantão:',
+          DateTimeInput(startDate, setStartDate),
         )}
         {FormItem(
-          '* Valor:',
+          'Máxima Data e Hora do Plantão:',
+          DateTimeInput(endDate, setEndDate),
+        )}
+        {FormItem(
+          'Com Pagamento Até:',
+          DateTimeInput(endPaymentDate, setEndPaymentDate),
+        )}
+        {FormItem(
+          'Com Pagamento Mínimo:',
           <Input
             value={wage}
             onChangeText={(text) => setWage(MaskService.toMask('money', text))}
           />,
         )}
         {FormItem(
-          '* CEP:',
+          'CEP:',
           <Input
             value={address}
             onChangeText={(text) =>
@@ -165,7 +162,6 @@ const CreateJourneyForm: React.FC<ICreateJourneyForm> = ({
             { label: 'Sim', value: true },
             { label: 'Não', value: false },
           ],
-
           setProvidesPpe,
         )}
         {PickerItem(
@@ -175,24 +171,17 @@ const CreateJourneyForm: React.FC<ICreateJourneyForm> = ({
             { label: translateHireEntity('LEGAL'), value: 'LEGAL' },
             { label: translateHireEntity('BOTH'), value: 'BOTH' },
           ],
-
           setHireEntity,
         )}
       </Form>
       <View style={{ marginTop: 40, alignSelf: 'center' }}>
-        {loading && <Spinner />}
-        <Button
-          success
-          large
-          iconLeft
-          disabled={loading}
-          onPress={handleCreateButton}>
-          <Icon type="FontAwesome" name="save" />
-          <Text>Criar</Text>
+        <Button success large iconLeft onPress={handleFilterButton}>
+          <Icon type="FontAwesome" name="filter" />
+          <Text>Filtrar</Text>
         </Button>
       </View>
     </View>
   );
 };
 
-export default CreateJourneyForm;
+export default FilterJourneysForm;
