@@ -14,7 +14,6 @@ import SignInDoctorPage from './components/pages/start/SignInDoctorPage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import DoctorHomePage from './components/pages/doctor/DoctorHomePage';
 import DoctorFooter from './components/footers/DoctorFooter';
-import DoctorProfilePage from './components/pages/doctor/DoctorProfilePage';
 import CompanyFooter from './components/footers/CompanyFooter';
 import SignInCompanyPage from './components/pages/start/SignInCompanyPage';
 import JourneysPage from './components/pages/shared/JourneysPage';
@@ -23,6 +22,10 @@ import ManagerFooter from './components/footers/ManagerFooter';
 import CreateJourneyPage from './components/pages/shared/CreateJourneysPage';
 import CreateManagerPage from './components/pages/company/CreateManagerPage';
 import ManagersPage from './components/pages/company/ManagersPage';
+import JourneyDetailsPage from './components/pages/shared/JourneyDetailsPage';
+import FindJourneysListPage from './components/pages/doctor/FindJourneysListPage';
+import CreateCandidaturePage from './components/pages/doctor/CreateCandidaturePage';
+import FilterJourneysPage from './components/pages/doctor/FilterJourneysPage';
 
 // Eventually this file will get too big, I know this issue.
 // But, to avoid problems on creating routes, keep all of them instanced here.
@@ -32,6 +35,26 @@ const App = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
 
+  const FindJourneysScreen = () => (
+    <Stack.Navigator initialRouteName="FindJourneysList">
+      <Stack.Screen
+        name="FindJourneysList"
+        component={FindJourneysListPage}
+        options={{ title: 'Encontrar Plantões' }}
+      />
+      <Stack.Screen
+        name="CreateCandidature"
+        component={CreateCandidaturePage}
+        options={{ title: 'Se Inscrever', headerBackTitle: 'Plantões' }}
+      />
+      <Stack.Screen
+        name="FilterJourneys"
+        component={FilterJourneysPage}
+        options={{ title: 'Filtrar Plantões', headerBackTitle: 'Plantões' }}
+      />
+    </Stack.Navigator>
+  );
+
   const DoctorTabScreen = () => (
     <Tab.Navigator tabBar={DoctorFooter} initialRouteName="DoctorHome">
       <Tab.Screen
@@ -40,9 +63,9 @@ const App = () => {
         options={{ title: 'Home' }}
       />
       <Tab.Screen
-        name="DoctorProfile"
-        component={DoctorProfilePage}
-        options={{ title: 'Perfil' }}
+        name="FindJourneys"
+        component={FindJourneysScreen}
+        options={{ title: 'Encontrar Plantões' }}
       />
     </Tab.Navigator>
   );
@@ -58,6 +81,11 @@ const App = () => {
         name="CreateJourney"
         component={CreateJourneyPage}
         options={{ title: 'Cadastrar Plantão' }}
+      />
+      <Stack.Screen
+        name="JourneyDetails"
+        component={JourneyDetailsPage}
+        options={{ title: 'Detalhes do Plantão' }}
       />
     </Stack.Navigator>
   );

@@ -1,14 +1,16 @@
 import React from 'react';
 import { Button, Card, CardItem, Text, View } from 'native-base';
 import Colors from '../../Colors';
+import { IJourneyFragment } from '../../graphql/fragments/JourneyFragment';
 
 interface IJourneyCard {
-  name: string;
-  address: string;
-  date: string;
+  journey: IJourneyFragment;
+  onShowDetails: () => void;
 }
 
-const JourneyCard: React.FC<IJourneyCard> = ({ name, address, date }) => {
+const JourneyCard: React.FC<IJourneyCard> = ({ journey, onShowDetails }) => {
+  const { name, address, date, doctor } = journey;
+
   const NameItem = (name: string): React.ReactElement => (
     <CardItem>
       <Text style={{ color: Colors.success, fontWeight: '600' }}>{name}</Text>
@@ -28,15 +30,22 @@ const JourneyCard: React.FC<IJourneyCard> = ({ name, address, date }) => {
           {NameItem('Nome:')}
           {NameItem('Data:')}
           {NameItem('Localização:')}
+          {!!doctor && NameItem('Doctor:')}
         </View>
         <View>
           {ValueItem(name)}
-          {ValueItem(date)}
+          {ValueItem(date.replace(' -0300', ''))}
           {ValueItem(address)}
+          {!!doctor && ValueItem(doctor.crm)}
         </View>
       </View>
       <View style={{ marginTop: 20 }}>
-        <Button small success bordered style={{ alignSelf: 'center' }}>
+        <Button
+          small
+          success
+          bordered
+          style={{ alignSelf: 'center' }}
+          onPress={onShowDetails}>
           <Text>Ver Mais</Text>
         </Button>
       </View>

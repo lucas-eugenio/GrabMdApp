@@ -7,12 +7,15 @@ import showError from '../../utils/showError';
 import Colors from '../../Colors';
 import MyJourneys, { Result } from '../../graphql/queries/MyJourneys';
 import JourneyCard from './JourneyCard';
+import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
+import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 
 interface IJourneysList {
   doRefetch: boolean;
+  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
 }
 
-const JourneysList: React.FC<IJourneysList> = ({ doRefetch }) => {
+const JourneysList: React.FC<IJourneysList> = ({ doRefetch, navigation }) => {
   const [page, setPage] = useState(1);
 
   const token = useUser().user?.token;
@@ -39,14 +42,19 @@ const JourneysList: React.FC<IJourneysList> = ({ doRefetch }) => {
       <View style={{ marginTop: 30, marginBottom: 30 }}>
         {hasJourneys ? (
           <View>
-            {journeys?.map((journey) => (
-              <JourneyCard
-                key={journey.id}
-                name={journey.name}
-                address={journey.address}
-                date={journey.date}
-              />
-            ))}
+            {journeys?.map((journey) => {
+              const handleShowDetails = (): void => {
+                navigation.navigate('JourneyDetails', { journey });
+              };
+
+              return (
+                <JourneyCard
+                  key={journey.id}
+                  journey={journey}
+                  onShowDetails={handleShowDetails}
+                />
+              );
+            })}
           </View>
         ) : (
           <Card>

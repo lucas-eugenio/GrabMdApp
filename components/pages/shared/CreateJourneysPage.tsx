@@ -33,6 +33,7 @@ const CreateJourneyPage: React.FC<ICreateJourneyPage> = ({ navigation }) => {
       providesPpe,
       hireEntity,
     } = form;
+
     const hasError = validateForm(name, date, paymentDate, wage, address);
     if (!hasError) {
       createJourney({
