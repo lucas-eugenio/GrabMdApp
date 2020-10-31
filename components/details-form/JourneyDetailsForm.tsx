@@ -1,12 +1,16 @@
 import React, { Fragment } from 'react';
-import { Form, Input, Item, Label, View } from 'native-base';
-import Colors from '../../Colors';
-import { MaskService } from 'react-native-masked-text';
+import { Form, View } from 'native-base';
 import { IJourneyFragment } from '../../graphql/fragments/JourneyFragment';
 import {
   translateHireEntity,
   translatePaymentMethod,
 } from '../../utils/translate';
+import {
+  ReadOnlyFormItem,
+  ReadOnlyFormItemWithoutInput,
+} from '../form-items/FormItems';
+import { formatDateToView, formatWageToView } from '../../utils/formatters';
+import { MaskedReadOnlyInput } from '../form-items/Inputs';
 
 interface IJourneyDetailsForm {
   journey: IJourneyFragment;
@@ -29,43 +33,38 @@ const JourneyDetailsForm: React.FC<IJourneyDetailsForm> = ({
     company,
   } = journey;
 
-  const FormItem = (name: string, value: string): React.ReactElement => (
-    <View>
-      {!!value && (
-        <Item floatingLabel style={{ marginTop: 24 }}>
-          <Label style={{ color: Colors.success, fontWeight: '600' }}>
-            {name}
-          </Label>
-          <Input value={value} editable={false} />
-        </Item>
-      )}
-    </View>
-  );
-
   return (
     <View>
       <Form>
         {showCompanyData && (
           <Fragment>
-            {FormItem('Nome da Empresa:', company.name)}
-            {FormItem('CNPJ:', company.cnpj)}
+            {ReadOnlyFormItem('Nome da Empresa:', company.name)}
+            {ReadOnlyFormItem('CNPJ:', company.cnpj)}
           </Fragment>
         )}
-        {FormItem('Título do Plantão:', name)}
-        {FormItem('Data e Hora do Plantão:', date.replace(' -0300', ''))}
-        {FormItem(
+        {ReadOnlyFormItem('Título do Plantão:', name)}
+        {ReadOnlyFormItem('Data e Hora do Plantão:', formatDateToView(date))}
+        {ReadOnlyFormItem(
           'Data e Hora do Pagamento:',
-          paymentDate.replace(' -0300', ''),
+          formatDateToView(paymentDate),
         )}
-        {FormItem(
+        {ReadOnlyFormItemWithoutInput(
           'Valor:',
-          MaskService.toMask('money', wage.toFixed(2).toString()),
+          MaskedReadOnlyInput(formatWageToView(wage), 'money'),
         )}
-        {FormItem('CEP:', MaskService.toMask('zip-code', address))}
-        {FormItem('Forma de Pagamento:', translatePaymentMethod(paymentMethod))}
+        {ReadOnlyFormItemWithoutInput(
+          'CEP:',
+          MaskedReadOnlyInput(address, 'zip-code'),
+        )}
+        {!!paymentMethod &&
+          ReadOnlyFormItem(
+            'Forma de Pagamento:',
+            translatePaymentMethod(paymentMethod),
+          )}
         {providesPpe != undefined &&
-          FormItem('Fornece EPI:', providesPpe ? 'Sim' : 'Não')}
-        {FormItem('Contrata:', translateHireEntity(hireEntity))}
+          ReadOnlyFormItem('Fornece EPI:', providesPpe ? 'Sim' : 'Não')}
+        {!!hireEntity &&
+          ReadOnlyFormItem('Contrata:', translateHireEntity(hireEntity))}
       </Form>
     </View>
   );

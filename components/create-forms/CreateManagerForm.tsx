@@ -1,17 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Form,
-  Icon,
-  Input,
-  Item,
-  Label,
-  Spinner,
-  Text,
-  View,
-} from 'native-base';
-import Colors from '../../Colors';
-import { MaskService } from 'react-native-masked-text';
+import { Button, Form, Icon, Spinner, Text, View } from 'native-base';
+import { FormItem, FormItemWithoutInput } from '../form-items/FormItems';
+import { MaskedInput } from '../form-items/Inputs';
 
 interface ICreateManagerForm {
   loading: boolean;
@@ -38,40 +28,13 @@ const CreateManagerForm: React.FC<ICreateManagerForm> = ({
     onCreateManager({ name, email, cpf, password });
   };
 
-  const FormItem = (
-    name: string,
-    setState: (text: string) => void,
-    isCpf?: boolean,
-  ): React.ReactElement => (
-    <View>
-      <Item floatingLabel style={{ marginTop: 24 }}>
-        <Label style={{ color: Colors.success, fontWeight: '600' }}>
-          {name}
-        </Label>
-        {isCpf ? (
-          <Input
-            value={cpf}
-            onChangeText={(text) => {
-              setState(MaskService.toMask('cpf', text));
-            }}
-          />
-        ) : (
-          <Input
-            autoCapitalize="none"
-            onChangeText={(text) => setState(text)}
-          />
-        )}
-      </Item>
-    </View>
-  );
-
   return (
     <View>
       <Form>
-        {FormItem('Nome Completo', setName)}
-        {FormItem('Email', setEmail)}
-        {FormItem('CPF', setCpf, true)}
-        {FormItem('Senha', setPassword)}
+        {FormItem('Nome Completo:', setName)}
+        {FormItem('Email:', setEmail)}
+        {FormItemWithoutInput('CPF:', MaskedInput(cpf, 'cpf', setCpf))}
+        {FormItem('Senha:', setPassword)}
       </Form>
       <View style={{ marginTop: 40, alignSelf: 'center' }}>
         {loading && <Spinner />}

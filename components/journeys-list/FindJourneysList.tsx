@@ -55,7 +55,6 @@ const FindJourneysList: React.FC<IJourneysList> = ({
   const { data, loading, error, refetch } = useQuery<Result>(FindJourneys, {
     variables,
   });
-  console.log('ERRO:', error);
 
   useEffect(() => {
     refetch();
