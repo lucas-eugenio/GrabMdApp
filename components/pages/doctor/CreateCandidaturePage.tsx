@@ -50,8 +50,7 @@ const CreateCandidaturePage: React.FC<ICreateCandidaturePage> = ({
           });
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         showError('Erro: Por favor, confirme os dados');
       })
       .finally(() => {

@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
+import { Button, Form, Icon, Text, View } from 'native-base';
+import { FormItemWithoutInput } from '../form-items/FormItems';
+import { DateTimeInput, MaskedInput } from '../form-items/Inputs';
 import {
-  Button,
-  Form,
-  Icon,
-  Input,
-  Item,
-  Label,
-  Text,
-  View,
-} from 'native-base';
-import Colors from '../../Colors';
-import { MaskService } from 'react-native-masked-text';
-import RNPickerSelect from 'react-native-picker-select';
+  HireEntityPicker,
+  PaymentMethodPicker,
+  ProvidesPpePicker,
+} from '../form-items/EnumPickerItems';
 import {
-  translateHireEntity,
-  translatePaymentMethod,
-} from '../../utils/translate';
+  formatDateToGraphql,
+  formatWageToGraphql,
+} from '../../utils/formatters';
 
 interface IFilterJourneysForm {
   onFilterJourneys: (form: IForm) => void;
@@ -48,15 +43,12 @@ const FilterJourneysForm: React.FC<IFilterJourneysForm> = ({
   );
   const [hireEntity, setHireEntity] = useState<string | undefined>(undefined);
 
-  const formatWage = (): number =>
-    parseFloat(wage.replace('R$', '').replace('.', '').replace(',', '.'));
-
   const handleFilterButton = (): void => {
     onFilterJourneys({
-      startDate: startDate ? `${startDate} -0300` : '',
-      endDate: endDate ? `${endDate} -0300` : '',
-      endPaymentDate: endPaymentDate ? `${endPaymentDate} -0300` : '',
-      wage: formatWage(),
+      startDate: formatDateToGraphql(startDate),
+      endDate: formatDateToGraphql(endDate),
+      endPaymentDate: formatDateToGraphql(endPaymentDate),
+      wage: formatWageToGraphql(wage),
       address,
       paymentMethod,
       providesPpe,
@@ -64,115 +56,32 @@ const FilterJourneysForm: React.FC<IFilterJourneysForm> = ({
     });
   };
 
-  const FormItem = (
-    name: string,
-    FormInput: React.ReactElement,
-  ): React.ReactElement => (
-    <Item floatingLabel style={{ marginTop: 24 }}>
-      <Label style={{ color: Colors.success, fontWeight: '600' }}>{name}</Label>
-      {FormInput}
-    </Item>
-  );
-
-  const DateTimeInput = (
-    value: string,
-    setState: (text: string) => void,
-  ): React.ReactElement => (
-    <Input
-      value={value}
-      onChangeText={(text) => {
-        setState(
-          MaskService.toMask('datetime', text, {
-            format: 'YYYY-MM-DD HH:mm:ss',
-          }),
-        );
-      }}
-    />
-  );
-
-  interface IPickerItem {
-    label: string;
-    value: string | boolean;
-  }
-
-  const PickerItem = (
-    name: string,
-    items: IPickerItem[],
-    setState: (value: any) => void,
-  ): React.ReactElement => (
-    <Item inlineLabel style={{ marginTop: 48 }}>
-      <Label style={{ color: Colors.success, fontWeight: '600' }}>{name}</Label>
-      <RNPickerSelect
-        itemKey="label"
-        onValueChange={(value) => setState(value)}
-        placeholder={{ label: 'Selecione uma Opção' }}
-        items={items}
-        style={{
-          inputIOS: { fontSize: 16, alignContent: 'flex-end' },
-          inputAndroid: { fontSize: 16 },
-        }}
-      />
-    </Item>
-  );
-
   return (
     <View>
       <Form>
-        {FormItem(
+        {FormItemWithoutInput(
           'Mínima Data e Hora do Plantão:',
           DateTimeInput(startDate, setStartDate),
         )}
-        {FormItem(
+        {FormItemWithoutInput(
           'Máxima Data e Hora do Plantão:',
           DateTimeInput(endDate, setEndDate),
         )}
-        {FormItem(
+        {FormItemWithoutInput(
           'Com Pagamento Até:',
           DateTimeInput(endPaymentDate, setEndPaymentDate),
         )}
-        {FormItem(
+        {FormItemWithoutInput(
           'Com Pagamento Mínimo:',
-          <Input
-            value={wage}
-            onChangeText={(text) => setWage(MaskService.toMask('money', text))}
-          />,
+          MaskedInput(wage, 'money', setWage),
         )}
-        {FormItem(
+        {FormItemWithoutInput(
           'CEP:',
-          <Input
-            value={address}
-            onChangeText={(text) =>
-              setAddress(MaskService.toMask('zip-code', text))
-            }
-          />,
+          MaskedInput(address, 'zip-code', setAddress),
         )}
-        {PickerItem(
-          'Forma de Pagamento:',
-          [
-            {
-              label: translatePaymentMethod('ACCOUNT_DEBIT'),
-              value: 'ACCOUNT_DEBIT',
-            },
-          ],
-          setPaymentMethod,
-        )}
-        {PickerItem(
-          'Fornece EPI:',
-          [
-            { label: 'Sim', value: true },
-            { label: 'Não', value: false },
-          ],
-          setProvidesPpe,
-        )}
-        {PickerItem(
-          'Contrata:',
-          [
-            { label: translateHireEntity('INDIVIDUAL'), value: 'INDIVIDUAL' },
-            { label: translateHireEntity('LEGAL'), value: 'LEGAL' },
-            { label: translateHireEntity('BOTH'), value: 'BOTH' },
-          ],
-          setHireEntity,
-        )}
+        {PaymentMethodPicker(setPaymentMethod)}
+        {ProvidesPpePicker(setProvidesPpe)}
+        {HireEntityPicker(setHireEntity)}
       </Form>
       <View style={{ marginTop: 40, alignSelf: 'center' }}>
         <Button success large iconLeft onPress={handleFilterButton}>
