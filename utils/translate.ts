@@ -19,3 +19,16 @@ export const translateHireEntity = (value: string): string => {
       return '';
   }
 };
+
+export const translateStatus = (value: string): string => {
+  switch (value) {
+    case 'IN_PROGRESS':
+      return 'Em Progresso';
+    case 'ACCEPTED':
+      return 'Aceito';
+    case 'REFUSED':
+      return 'Recusado';
+    default:
+      return '';
+  }
+};

@@ -12,7 +12,7 @@ import CreateCompanyPage from './components/pages/start/CreateCompanyPage';
 import LoginPage from './components/pages/start/LoginPage';
 import SignInDoctorPage from './components/pages/start/SignInDoctorPage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import DoctorHomePage from './components/pages/doctor/DoctorHomePage';
+import MyCandidaturesListPage from './components/pages/doctor/MyCandidaturesListPage';
 import DoctorFooter from './components/footers/DoctorFooter';
 import CompanyFooter from './components/footers/CompanyFooter';
 import SignInCompanyPage from './components/pages/start/SignInCompanyPage';
@@ -26,6 +26,7 @@ import JourneyDetailsPage from './components/pages/shared/JourneyDetailsPage';
 import FindJourneysListPage from './components/pages/doctor/FindJourneysListPage';
 import CreateCandidaturePage from './components/pages/doctor/CreateCandidaturePage';
 import FilterJourneysPage from './components/pages/doctor/FilterJourneysPage';
+import CandidatureDetailsPage from './components/pages/doctor/CandidatureDetailsPage';
 
 // Eventually this file will get too big, I know this issue.
 // But, to avoid problems on creating routes, keep all of them instanced here.
@@ -34,6 +35,21 @@ import FilterJourneysPage from './components/pages/doctor/FilterJourneysPage';
 const App = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
+
+  const MyCandidaturesScreen = () => (
+    <Stack.Navigator initialRouteName="MyCandidaturesList">
+      <Stack.Screen
+        name="MyCandidaturesList"
+        component={MyCandidaturesListPage}
+        options={{ title: 'Minhas Inscrições' }}
+      />
+      <Stack.Screen
+        name="CandidatureDetails"
+        component={CandidatureDetailsPage}
+        options={{ title: 'Inscrição', headerBackTitle: 'Inscrições' }}
+      />
+    </Stack.Navigator>
+  );
 
   const FindJourneysScreen = () => (
     <Stack.Navigator initialRouteName="FindJourneysList">
@@ -56,11 +72,11 @@ const App = () => {
   );
 
   const DoctorTabScreen = () => (
-    <Tab.Navigator tabBar={DoctorFooter} initialRouteName="DoctorHome">
+    <Tab.Navigator tabBar={DoctorFooter} initialRouteName="MyCandidatures">
       <Tab.Screen
-        name="DoctorHome"
-        component={DoctorHomePage}
-        options={{ title: 'Home' }}
+        name="MyCandidatures"
+        component={MyCandidaturesScreen}
+        options={{ title: 'Minhas Inscrições' }}
       />
       <Tab.Screen
         name="FindJourneys"
