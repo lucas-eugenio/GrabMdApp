@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardItem, Spinner, Text, View } from 'native-base';
+import { Spinner, View } from 'native-base';
 import ManagerCard from './ManagerCard';
 import Pagination from '../pagination/Pagination';
 import useUser from '../../utils/useUser';
 import { useQuery } from '@apollo/client';
 import MyManagers, { Result } from '../../graphql/queries/MyManagers';
 import showError from '../../utils/showError';
-import Colors from '../../Colors';
+import EmptyAndError from '../empty-and-error/EmptyAndError';
 
 interface IManagersList {
   doRefetch: boolean;
@@ -32,7 +32,7 @@ const ManagersList: React.FC<IManagersList> = ({ doRefetch }) => {
 
   const hasManagers = managers && managers.length > 0;
   const showPagination = hasManagers && !error && !errors;
-  const hasError = error || errors;
+  const hasError = !!error || !!errors;
 
   return (
     <View>
@@ -49,31 +49,11 @@ const ManagersList: React.FC<IManagersList> = ({ doRefetch }) => {
             ))}
           </View>
         ) : (
-          <Card>
-            <CardItem style={{ justifyContent: 'center' }}>
-              {!loading && (
-                <View>
-                  {hasError ? (
-                    <Text
-                      style={{
-                        color: Colors.danger,
-                        fontWeight: '600',
-                      }}>
-                      Ops! Algo deu errado.
-                    </Text>
-                  ) : (
-                    <Text
-                      style={{
-                        color: Colors.success,
-                        fontWeight: '600',
-                      }}>
-                      Sua Empresa ainda não tem um Gestor!
-                    </Text>
-                  )}
-                </View>
-              )}
-            </CardItem>
-          </Card>
+          <EmptyAndError
+            isLoading={loading}
+            hasError={hasError}
+            emptyMessage="Sua Empresa ainda não tem um Gestor!"
+          />
         )}
       </View>
       {loading && <Spinner />}

@@ -4,23 +4,26 @@ import Pagination from '../pagination/Pagination';
 import useUser from '../../utils/useUser';
 import { useQuery } from '@apollo/client';
 import showError from '../../utils/showError';
-import MyJourneys, { Result } from '../../graphql/queries/MyJourneys';
-import JourneyCard from './JourneyCard';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
+import MyCandidatures, { Result } from '../../graphql/queries/MyCandidatures';
+import CandidatureCard from './CandidatureCard';
 import EmptyAndError from '../empty-and-error/EmptyAndError';
 
-interface IJourneysList {
+interface IMyCandidaturesList {
   doRefetch: boolean;
   navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
 }
 
-const JourneysList: React.FC<IJourneysList> = ({ doRefetch, navigation }) => {
+const MyCandidaturesList: React.FC<IMyCandidaturesList> = ({
+  doRefetch,
+  navigation,
+}) => {
   const [page, setPage] = useState(1);
 
   const token = useUser().user?.token;
 
-  const { data, loading, error, refetch } = useQuery<Result>(MyJourneys, {
+  const { data, loading, error, refetch } = useQuery<Result>(MyCandidatures, {
     variables: { token, page },
   });
 
@@ -28,29 +31,28 @@ const JourneysList: React.FC<IJourneysList> = ({ doRefetch, navigation }) => {
     refetch();
   }, [doRefetch]);
 
-  const errors = data?.myJourneys.errors;
+  const errors = data?.myCandidatures.errors;
   errors && showError(`Erro: ${errors}`);
 
-  const journeys = data?.myJourneys.journeys;
+  const candidatures = data?.myCandidatures.candidatures;
 
-  const hasJourneys = journeys && journeys.length > 0;
-  const showPagination = hasJourneys && !error && !errors;
+  const hasCandidature = candidatures && candidatures.length > 0;
+  const showPagination = hasCandidature && !error && !errors;
   const hasError = !!error || !!errors;
 
   return (
     <View>
       <View style={{ marginTop: 30, marginBottom: 30 }}>
-        {hasJourneys ? (
+        {hasCandidature ? (
           <View>
-            {journeys?.map((journey) => {
+            {candidatures?.map((candidature) => {
               const handleShowDetails = (): void => {
-                navigation.navigate('JourneyDetails', { journey });
+                navigation.navigate('CandidatureDetails', { candidature });
               };
-
               return (
-                <JourneyCard
-                  key={journey.id}
-                  journey={journey}
+                <CandidatureCard
+                  key={candidature.id}
+                  candidature={candidature}
                   onShowDetails={handleShowDetails}
                 />
               );
@@ -60,7 +62,7 @@ const JourneysList: React.FC<IJourneysList> = ({ doRefetch, navigation }) => {
           <EmptyAndError
             isLoading={loading}
             hasError={hasError}
-            emptyMessage="Sua Empresa ainda não tem um Plantão!"
+            emptyMessage={'Você ainda não se Inscreveu para um Plantão!'}
           />
         )}
       </View>
@@ -68,7 +70,7 @@ const JourneysList: React.FC<IJourneysList> = ({ doRefetch, navigation }) => {
       {showPagination && (
         <Pagination
           page={page}
-          pageCount={data?.myJourneys.pagination.pageCount || 1}
+          pageCount={data?.myCandidatures.pagination.pageCount || 1}
           onPageChange={setPage}
           disabled={loading}
         />
@@ -77,4 +79,4 @@ const JourneysList: React.FC<IJourneysList> = ({ doRefetch, navigation }) => {
   );
 };
 
-export default JourneysList;
+export default MyCandidaturesList;

@@ -11,7 +11,7 @@ const DoctorFooter: React.FC<IDoctorFooter> = ({ navigation }) => {
   return (
     <Footer>
       <FooterTab>
-        <Button vertical onPress={() => navigation.navigate('DoctorHome')}>
+        <Button vertical onPress={() => navigation.navigate('MyCandidatures')}>
           <Icon type="FontAwesome5" name="clinic-medical" />
           <Text>Home</Text>
         </Button>

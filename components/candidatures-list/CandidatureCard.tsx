@@ -1,17 +1,19 @@
 import React from 'react';
-import { Button, Card, CardItem, Text, View } from 'native-base';
-import Colors from '../../Colors';
-import { IJourneyFragment } from '../../graphql/fragments/JourneyFragment';
+import { Button, Card, Text, View } from 'native-base';
+import { ICandidatureFragment } from '../../graphql/fragments/CandidatureFragment';
 import { formatDateToView } from '../../utils/formatters';
-import { NameItem, ValueItem } from '../form-items/CardItems';
+import { BadgeItem, NameItem, ValueItem } from '../form-items/CardItems';
 
 interface IJourneyCard {
-  journey: IJourneyFragment;
+  candidature: ICandidatureFragment;
   onShowDetails: () => void;
 }
 
-const JourneyCard: React.FC<IJourneyCard> = ({ journey, onShowDetails }) => {
-  const { name, address, date, doctor } = journey;
+const CandidatureCard: React.FC<IJourneyCard> = ({
+  candidature,
+  onShowDetails,
+}) => {
+  const { journey, status } = candidature;
 
   return (
     <Card style={{ padding: 8, marginBottom: 10 }}>
@@ -20,13 +22,13 @@ const JourneyCard: React.FC<IJourneyCard> = ({ journey, onShowDetails }) => {
           {NameItem('Nome:')}
           {NameItem('Data:')}
           {NameItem('Localização:')}
-          {!!doctor && NameItem('Doctor:')}
+          {NameItem('Status:')}
         </View>
         <View>
-          {ValueItem(name)}
-          {ValueItem(formatDateToView(date))}
-          {ValueItem(address)}
-          {!!doctor && ValueItem(doctor.crm)}
+          {ValueItem(journey.name)}
+          {ValueItem(formatDateToView(journey.date))}
+          {ValueItem(journey.address)}
+          {BadgeItem(status)}
         </View>
       </View>
       <View style={{ marginTop: 20 }}>
@@ -43,4 +45,4 @@ const JourneyCard: React.FC<IJourneyCard> = ({ journey, onShowDetails }) => {
   );
 };
 
-export default JourneyCard;
+export default CandidatureCard;

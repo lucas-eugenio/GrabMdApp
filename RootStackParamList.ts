@@ -1,3 +1,5 @@
+import { ICandidatureFragment } from './graphql/fragments/CandidatureFragment';
+
 interface JourneyDetails {
   id: string;
   address: string;
@@ -64,6 +66,9 @@ export type RootStackParamList = {
   // Candidature
   CreateCandidature: {
     journey: JourneyDetails;
+  };
+  CandidatureDetails: {
+    candidature: ICandidatureFragment;
   };
 };
 

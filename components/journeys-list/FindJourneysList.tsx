@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardItem, Spinner, Text, View } from 'native-base';
+import { Spinner, View } from 'native-base';
 import Pagination from '../pagination/Pagination';
 import useUser from '../../utils/useUser';
 import { useQuery } from '@apollo/client';
 import showError from '../../utils/showError';
-import Colors from '../../Colors';
 import FindJourneys, {
   Result,
   Variables,
@@ -13,6 +12,7 @@ import JourneyCard from './JourneyCard';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import { IForm } from '../filter-forms/FilterJouneysForm';
+import EmptyAndError from '../empty-and-error/EmptyAndError';
 
 interface IJourneysList {
   doRefetch: boolean;
@@ -67,7 +67,7 @@ const FindJourneysList: React.FC<IJourneysList> = ({
 
   const hasJourneys = journeys && journeys.length > 0;
   const showPagination = hasJourneys && !error && !errors;
-  const hasError = error || errors;
+  const hasError = !!error || !!errors;
 
   return (
     <View>
@@ -89,33 +89,11 @@ const FindJourneysList: React.FC<IJourneysList> = ({
             })}
           </View>
         ) : (
-          <View>
-            {!loading && (
-              <Card>
-                <CardItem style={{ justifyContent: 'center' }}>
-                  <View>
-                    {hasError ? (
-                      <Text
-                        style={{
-                          color: Colors.danger,
-                          fontWeight: '600',
-                        }}>
-                        Ops! Algo deu errado.
-                      </Text>
-                    ) : (
-                      <Text
-                        style={{
-                          color: Colors.success,
-                          fontWeight: '600',
-                        }}>
-                        Não existe Plantão para esses filtros!
-                      </Text>
-                    )}
-                  </View>
-                </CardItem>
-              </Card>
-            )}
-          </View>
+          <EmptyAndError
+            isLoading={loading}
+            hasError={hasError}
+            emptyMessage="Não existe Plantão para esses filtros!"
+          />
         )}
       </View>
       {loading && <Spinner />}
