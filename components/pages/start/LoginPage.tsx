@@ -2,6 +2,7 @@ import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
 import { Button, Container, Content, Icon, Text, View, H1 } from 'native-base';
+import { LargeIcon } from '../../icons/Icons';
 
 interface ILoginPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
@@ -17,6 +18,7 @@ const LoginPage: React.FC<ILoginPage> = ({ navigation }) => {
             Você é um Médico, representa uma Empresa ou um Gestor de Vagas?
           </Text>
         </View>
+        <LargeIcon />
         <View>
           <Button
             success

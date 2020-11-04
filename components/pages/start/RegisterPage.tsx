@@ -2,6 +2,7 @@ import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
 import { Button, Container, Content, Icon, Text, View, H1 } from 'native-base';
+import { LargeIcon } from '../../icons/Icons';
 
 interface IRegisterPage {
   navigation: StackNavigationProp<RootStackParamList, 'Register'>;
@@ -17,6 +18,7 @@ const RegisterPage: React.FC<IRegisterPage> = ({ navigation }) => {
             Você é um Médico ou representa uma Empresa?
           </Text>
         </View>
+        <LargeIcon />
         <View>
           <Button
             success

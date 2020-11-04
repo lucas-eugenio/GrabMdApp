@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardItem, Text, View } from 'native-base';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Colors from '../../Colors';
 
 interface IEmptyAndError {
   isLoading: boolean;

@@ -9,6 +9,7 @@ import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/t
 import showSuccess from '../../../utils/showSuccess';
 import ManagersList from '../../managers-list/ManagersList';
 import RootStackParamList from '../../../RootStackParamList';
+import Header from '../../header/Header';
 
 interface ICompanyManagersPage {
   route: RouteProp<RootStackParamList, 'ManagersList'>;
@@ -35,6 +36,7 @@ const ManagersPage: React.FC<ICompanyManagersPage> = ({
 
   return (
     <Container>
+      <Header />
       <Content padder>
         <View>
           <H1>Gestores:</H1>

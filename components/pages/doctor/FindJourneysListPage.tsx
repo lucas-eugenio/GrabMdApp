@@ -10,6 +10,7 @@ import RootStackParamList from '../../../RootStackParamList';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import showSuccess from '../../../utils/showSuccess';
 import { IForm } from '../../filter-forms/FilterJouneysForm';
+import Header from '../../header/Header';
 
 interface IFindJourneysPage {
   route: RouteProp<RootStackParamList, 'FindJourneysList'>;
@@ -38,6 +39,7 @@ const FindJourneysListPage: React.FC<IFindJourneysPage> = ({
 
   return (
     <Container>
+      <Header />
       <Content padder>
         <View>
           <H1>Encontrar Plantões:</H1>

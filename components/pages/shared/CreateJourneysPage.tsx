@@ -9,6 +9,7 @@ import CreateJourneyForm, { IForm } from '../../create-forms/CreateJourneyForm';
 import CreateJourney, {
   Result,
 } from '../../../graphql/mutations/CreateJourney';
+import Header from '../../header/Header';
 
 interface ICreateJourneyPage {
   navigation: StackNavigationProp<RootStackParamList, 'JourneysList'>;
@@ -97,6 +98,7 @@ const CreateJourneyPage: React.FC<ICreateJourneyPage> = ({ navigation }) => {
 
   return (
     <Container>
+      <Header />
       <Content padder>
         <View style={{ alignItems: 'center' }}>
           <Text style={{ marginTop: 8, textAlign: 'center' }}>

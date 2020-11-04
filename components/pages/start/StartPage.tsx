@@ -15,6 +15,7 @@ import { RouteProp } from '@react-navigation/native';
 import useUser from '../../../utils/useUser';
 import navigateToHome from '../../../utils/useHome';
 import showSuccess from '../../../utils/showSuccess';
+import { LargeIcon } from '../../icons/Icons';
 
 interface IHomePage {
   navigation: StackNavigationProp<RootStackParamList, 'Start'>;
@@ -47,6 +48,7 @@ const StartPage: React.FC<IHomePage> = ({ navigation, route }) => {
           </Text>
         </View>
         {loading && <Spinner />}
+        <LargeIcon />
         <View>
           <Button
             success
