@@ -9,6 +9,7 @@ import {
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import RootStackParamList from '../../../RootStackParamList';
 import showSuccess from '../../../utils/showSuccess';
+import Header from '../../header/Header';
 
 interface IJourneysPage {
   route: RouteProp<RootStackParamList, 'JourneysList'>;
@@ -32,6 +33,7 @@ const JourneysPage: React.FC<IJourneysPage> = ({ route, navigation }) => {
 
   return (
     <Container>
+      <Header />
       <Content padder>
         <View>
           <H1>Plantões:</H1>

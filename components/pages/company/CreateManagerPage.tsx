@@ -9,6 +9,7 @@ import showError from '../../../utils/showError';
 import useUser from '../../../utils/useUser';
 import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
+import Header from '../../header/Header';
 
 interface ICompanyCreateManagerPage {
   navigation: StackNavigationProp<RootStackParamList, 'ManagersList'>;
@@ -75,6 +76,7 @@ const CreateManagerPage: React.FC<ICompanyCreateManagerPage> = ({
 
   return (
     <Container>
+      <Header />
       <Content padder>
         <View style={{ alignItems: 'center' }}>
           <Text style={{ marginTop: 8, textAlign: 'center' }}>

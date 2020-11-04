@@ -5,6 +5,7 @@ import FilterJourneysForm, {
   IForm,
 } from '../../filter-forms/FilterJouneysForm';
 import { StackNavigationProp } from '@react-navigation/stack';
+import Header from '../../header/Header';
 
 interface IFilterJourneysPage {
   navigation: StackNavigationProp<RootStackParamList, 'FindJourneysList'>;
@@ -17,6 +18,7 @@ const FilterJourneysPage: React.FC<IFilterJourneysPage> = ({ navigation }) => {
 
   return (
     <Container>
+      <Header />
       <Content padder>
         <View>
           <H1>Filtrar Plantões:</H1>

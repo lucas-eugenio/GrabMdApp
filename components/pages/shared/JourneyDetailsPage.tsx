@@ -4,6 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import RootStackParamList from '../../../RootStackParamList';
 import { RouteProp } from '@react-navigation/native';
 import JourneyDetailsForm from '../../details-form/JourneyDetailsForm';
+import Header from '../../header/Header';
 
 interface IJourneyDetailsPage {
   route: RouteProp<RootStackParamList, 'JourneyDetails'>;
@@ -16,6 +17,7 @@ const JourneyDetailsPage: React.FC<IJourneyDetailsPage> = ({
 }) => {
   return (
     <Container>
+      <Header />
       <Content padder>
         <View>
           <H1>Plantão:</H1>

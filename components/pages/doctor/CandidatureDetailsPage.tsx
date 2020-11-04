@@ -4,6 +4,7 @@ import RootStackParamList from '../../../RootStackParamList';
 import { RouteProp } from '@react-navigation/native';
 import JourneyDetailsForm from '../../details-form/JourneyDetailsForm';
 import StatusBadger from '../../candidatures-list/StatusBadge';
+import Header from '../../header/Header';
 
 interface ICandidatureDetailsPage {
   route: RouteProp<RootStackParamList, 'CandidatureDetails'>;
@@ -14,6 +15,7 @@ const CandidatureDetailsPage: React.FC<ICandidatureDetailsPage> = ({
 }) => {
   return (
     <Container>
+      <Header />
       <Content padder>
         <View>
           <H1>Inscrição:</H1>

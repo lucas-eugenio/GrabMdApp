@@ -19,6 +19,7 @@ import CreateCandidature, {
 } from '../../../graphql/mutations/CreateCandidature';
 import useUser from '../../../utils/useUser';
 import showError from '../../../utils/showError';
+import Header from '../../header/Header';
 
 interface ICreateCandidaturePage {
   route: RouteProp<RootStackParamList, 'CreateCandidature'>;
@@ -60,6 +61,7 @@ const CreateCandidaturePage: React.FC<ICreateCandidaturePage> = ({
 
   return (
     <Container>
+      <Header />
       <Content padder>
         <View>
           <H1>Plantão:</H1>
