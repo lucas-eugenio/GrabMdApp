@@ -15,6 +15,8 @@ const JourneyDetailsPage: React.FC<IJourneyDetailsPage> = ({
   route,
   navigation,
 }) => {
+  const { journey } = route.params;
+
   return (
     <Container>
       <Header />
@@ -22,19 +24,23 @@ const JourneyDetailsPage: React.FC<IJourneyDetailsPage> = ({
         <View>
           <H1>Plantão:</H1>
         </View>
-        {!route.params.journey.doctor && (
+        {!journey.doctor && (
           <View style={{ marginTop: 10 }}>
             <Button
               success
               iconLeft
-              // onPress={() => navigation.navigate('CreateManager')}
+              onPress={() =>
+                navigation.navigate('JourneyCandidatures', {
+                  journeyId: journey.id,
+                })
+              }
               style={{ alignSelf: 'flex-end' }}>
-              <Icon type="FontAwesome5" name="file-medical" />
+              <Icon type="FontAwesome5" name="laptop-medical" />
               <Text>Ver Inscrições</Text>
             </Button>
           </View>
         )}
-        <JourneyDetailsForm journey={route.params.journey} />
+        <JourneyDetailsForm journey={route.params.journey} showDoctorData />
       </Content>
     </Container>
   );

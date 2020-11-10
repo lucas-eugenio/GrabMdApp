@@ -31,16 +31,18 @@ const CandidatureCard: React.FC<IJourneyCard> = ({
           {BadgeItem(status)}
         </View>
       </View>
-      <View style={{ marginTop: 20 }}>
-        <Button
-          small
-          success
-          bordered
-          style={{ alignSelf: 'center' }}
-          onPress={onShowDetails}>
-          <Text>Ver Mais</Text>
-        </Button>
-      </View>
+      {status != 'REFUSED' && (
+        <View style={{ marginTop: 20 }}>
+          <Button
+            small
+            success
+            bordered
+            style={{ alignSelf: 'center' }}
+            onPress={onShowDetails}>
+            <Text>Ver Mais</Text>
+          </Button>
+        </View>
+      )}
     </Card>
   );
 };

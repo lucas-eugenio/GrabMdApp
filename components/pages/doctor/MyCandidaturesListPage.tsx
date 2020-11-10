@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Content, View, H1 } from 'native-base';
 import MyCandidaturesList from '../../candidatures-list/MyCandidaturesList';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
@@ -12,6 +12,12 @@ interface IMyCandidaturesListPage {
 const MyCandidaturesListPage: React.FC<IMyCandidaturesListPage> = ({
   navigation,
 }) => {
+  const [doRefetch, setDoRefetch] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setDoRefetch(false), 500);
+  }, []);
+
   return (
     <Container>
       <Header />
@@ -19,7 +25,7 @@ const MyCandidaturesListPage: React.FC<IMyCandidaturesListPage> = ({
         <View>
           <H1>Minhas Inscrições:</H1>
         </View>
-        <MyCandidaturesList doRefetch={false} navigation={navigation} />
+        <MyCandidaturesList doRefetch={doRefetch} navigation={navigation} />
       </Content>
     </Container>
   );

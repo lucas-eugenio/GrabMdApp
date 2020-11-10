@@ -10,6 +10,7 @@ interface JourneyDetails {
   };
   date: string;
   doctor?: {
+    name: string;
     crm: string;
   };
   hireEntity: string;
@@ -43,7 +44,7 @@ export type RootStackParamList = {
   ManagersList: { createdManager?: boolean };
 
   // Journey
-  JourneysList: { createdJourney?: boolean };
+  JourneysList: { createdJourney?: boolean; acceptedJourney?: boolean };
   JourneyDetails: {
     journey: JourneyDetails;
   };
@@ -69,6 +70,9 @@ export type RootStackParamList = {
   };
   CandidatureDetails: {
     candidature: ICandidatureFragment;
+  };
+  JourneyCandidatures: {
+    journeyId: string;
   };
 };
 
