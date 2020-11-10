@@ -15,11 +15,13 @@ import { MaskedReadOnlyInput } from '../form-items/Inputs';
 interface IJourneyDetailsForm {
   journey: IJourneyFragment;
   showCompanyData?: boolean;
+  showDoctorData?: boolean;
 }
 
 const JourneyDetailsForm: React.FC<IJourneyDetailsForm> = ({
   journey,
   showCompanyData = false,
+  showDoctorData = false,
 }) => {
   const {
     name,
@@ -31,11 +33,18 @@ const JourneyDetailsForm: React.FC<IJourneyDetailsForm> = ({
     providesPpe,
     hireEntity,
     company,
+    doctor,
   } = journey;
 
   return (
     <View>
       <Form>
+        {showDoctorData && !!doctor && (
+          <Fragment>
+            {ReadOnlyFormItem('Nome do Médico:', doctor.name)}
+            {ReadOnlyFormItem('CRM:', doctor.crm)}
+          </Fragment>
+        )}
         {showCompanyData && (
           <Fragment>
             {ReadOnlyFormItem('Nome da Empresa:', company.name)}

@@ -5,6 +5,7 @@ const DoctorFragment = gql`
     id
     name
     crm
+    email
   }
 `;
 
@@ -12,6 +13,7 @@ export interface IDoctorFragment {
   id: string;
   name: string;
   crm: string;
+  email: string;
 }
 
 export default DoctorFragment;

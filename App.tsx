@@ -27,6 +27,7 @@ import FindJourneysListPage from './components/pages/doctor/FindJourneysListPage
 import CreateCandidaturePage from './components/pages/doctor/CreateCandidaturePage';
 import FilterJourneysPage from './components/pages/doctor/FilterJourneysPage';
 import CandidatureDetailsPage from './components/pages/doctor/CandidatureDetailsPage';
+import JourneyCandidaturesPage from './components/pages/shared/JourneyCandidaturesPage';
 
 // Eventually this file will get too big, I know this issue.
 // But, to avoid problems on creating routes, keep all of them instanced here.
@@ -102,6 +103,11 @@ const App = () => {
         name="JourneyDetails"
         component={JourneyDetailsPage}
         options={{ title: 'Detalhes do Plantão' }}
+      />
+      <Stack.Screen
+        name="JourneyCandidatures"
+        component={JourneyCandidaturesPage}
+        options={{ title: 'Inscrições' }}
       />
     </Stack.Navigator>
   );

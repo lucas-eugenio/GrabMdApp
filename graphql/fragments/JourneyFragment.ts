@@ -10,6 +10,7 @@ const JourneyFragment = gql`
     }
     date
     doctor {
+      name
       crm
     }
     hireEntity
@@ -31,6 +32,7 @@ export interface IJourneyFragment {
   };
   date: string;
   doctor?: {
+    name: string;
     crm: string;
   };
   hireEntity: string;

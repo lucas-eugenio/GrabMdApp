@@ -19,8 +19,8 @@ const Header: React.FC = () => {
         />
         <Text
           style={{
-            fontSize: 24,
-            marginTop: 14,
+            fontSize: 20,
+            marginTop: 16,
             color: Colors.white,
             fontWeight: '600',
           }}>

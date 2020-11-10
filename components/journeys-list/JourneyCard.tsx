@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Card, CardItem, Text, View } from 'native-base';
-import Colors from '../../Colors';
+import { Button, Card, Text, View } from 'native-base';
 import { IJourneyFragment } from '../../graphql/fragments/JourneyFragment';
 import { formatDateToView } from '../../utils/formatters';
 import { NameItem, ValueItem } from '../form-items/CardItems';
@@ -20,13 +19,13 @@ const JourneyCard: React.FC<IJourneyCard> = ({ journey, onShowDetails }) => {
           {NameItem('Nome:')}
           {NameItem('Data:')}
           {NameItem('Localização:')}
-          {!!doctor && NameItem('Doctor:')}
+          {!!doctor && NameItem('Médico:')}
         </View>
         <View>
           {ValueItem(name)}
           {ValueItem(formatDateToView(date))}
           {ValueItem(address)}
-          {!!doctor && ValueItem(doctor.crm)}
+          {!!doctor && ValueItem(doctor.name)}
         </View>
       </View>
       <View style={{ marginTop: 20 }}>

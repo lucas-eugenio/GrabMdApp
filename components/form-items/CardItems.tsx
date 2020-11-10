@@ -1,7 +1,7 @@
 import React from 'react';
 import { CardItem, Text } from 'native-base';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import StatusBadger from '../candidatures-list/StatusBadge';
+import Colors from '../../Colors';
 
 export const NameItem = (name: string): React.ReactElement => (
   <CardItem>

@@ -19,16 +19,17 @@ interface IJourneysPage {
 const JourneysPage: React.FC<IJourneysPage> = ({ route, navigation }) => {
   const [doRefetch, setDoRefetch] = useState(false);
 
-  const onCreateJourney = () => {
+  const onAction = (text: string) => {
     setDoRefetch(true);
-    showSuccess('Sucesso: Plantão Criado');
+    showSuccess(text);
     setTimeout(() => {
       setDoRefetch(false), 500;
     });
   };
 
   useEffect(() => {
-    route.params?.createdJourney && onCreateJourney();
+    route.params?.createdJourney && onAction('Sucesso: Plantão Criado');
+    route.params?.acceptedJourney && onAction('Sucesso: Inscrição Aceita');
   }, [route]);
 
   return (
