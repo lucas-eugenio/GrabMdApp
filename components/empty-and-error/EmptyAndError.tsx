@@ -5,7 +5,7 @@ import Colors from '../../Colors';
 interface IEmptyAndError {
   isLoading: boolean;
   hasError: boolean;
-  emptyMessage: string;
+  emptyMessage?: string;
 }
 
 const EmptyAndError: React.FC<IEmptyAndError> = ({

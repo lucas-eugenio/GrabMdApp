@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'native-base';
+import { Input, Textarea } from 'native-base';
 import { MaskService } from 'react-native-masked-text';
 
 export const BaseInput = (
@@ -33,6 +33,21 @@ export const DateTimeInput = (
           format: 'YYYY-MM-DD HH:mm:ss',
         }),
       );
+    }}
+  />
+);
+
+export const TextAreaInput = (
+  value: string,
+  setState: (text: string) => void,
+): React.ReactElement => (
+  <Textarea
+    value={value}
+    rowSpan={3}
+    underline
+    bordered
+    onChangeText={(text) => {
+      setState(text);
     }}
   />
 );

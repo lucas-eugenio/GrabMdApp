@@ -28,6 +28,8 @@ import CreateCandidaturePage from './components/pages/doctor/CreateCandidaturePa
 import FilterJourneysPage from './components/pages/doctor/FilterJourneysPage';
 import CandidatureDetailsPage from './components/pages/doctor/CandidatureDetailsPage';
 import JourneyCandidaturesPage from './components/pages/shared/JourneyCandidaturesPage';
+import MyCompanyProfilePage from './components/pages/company/MyCompanyProfilePage';
+import MyDoctorProfilePage from './components/pages/doctor/MyDoctorProfilePage';
 
 // Eventually this file will get too big, I know this issue.
 // But, to avoid problems on creating routes, keep all of them instanced here.
@@ -72,18 +74,21 @@ const App = () => {
     </Stack.Navigator>
   );
 
+  const DoctorProfileScreen = () => (
+    <Stack.Navigator initialRouteName="MyDoctorProfile">
+      <Stack.Screen
+        name="MyDoctorProfile"
+        component={MyDoctorProfilePage}
+        options={{ title: 'Meu Perfil' }}
+      />
+    </Stack.Navigator>
+  );
+
   const DoctorTabScreen = () => (
     <Tab.Navigator tabBar={DoctorFooter} initialRouteName="MyCandidatures">
-      <Tab.Screen
-        name="MyCandidatures"
-        component={MyCandidaturesScreen}
-        options={{ title: 'Minhas Inscrições' }}
-      />
-      <Tab.Screen
-        name="FindJourneys"
-        component={FindJourneysScreen}
-        options={{ title: 'Encontrar Plantões' }}
-      />
+      <Tab.Screen name="MyCandidatures" component={MyCandidaturesScreen} />
+      <Tab.Screen name="FindJourneys" component={FindJourneysScreen} />
+      <Tab.Screen name="Profile" component={DoctorProfileScreen} />
     </Tab.Navigator>
   );
 
@@ -127,10 +132,21 @@ const App = () => {
     </Stack.Navigator>
   );
 
+  const CompanyProfileScreen = () => (
+    <Stack.Navigator initialRouteName="CompanyProfile">
+      <Stack.Screen
+        name="CompanyProfile"
+        component={MyCompanyProfilePage}
+        options={{ title: 'Perfil da Empresa' }}
+      />
+    </Stack.Navigator>
+  );
+
   const CompanyTabScreen = () => (
     <Tab.Navigator tabBar={CompanyFooter} initialRouteName="Journeys">
       <Tab.Screen name="Journeys" component={JourneysScreen} />
       <Tab.Screen name="Managers" component={ManagerScreen} />
+      <Tab.Screen name="Profile" component={CompanyProfileScreen} />
     </Tab.Navigator>
   );
 

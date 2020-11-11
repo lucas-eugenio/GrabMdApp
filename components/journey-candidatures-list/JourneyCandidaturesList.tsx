@@ -10,7 +10,10 @@ import JourneyCandidatures, {
   Result,
   Variables,
 } from '../../graphql/queries/JourneyCandidatures';
-import AcceptCandidature from '../../graphql/mutations/AcceptCandidature';
+import AcceptCandidature, {
+  Result as URes,
+  Variables as UVar,
+} from '../../graphql/mutations/AcceptCandidature';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 
@@ -34,7 +37,7 @@ const JourneyCandidaturesList: React.FC<IJourneyCandidaturesList> = ({
     },
   );
 
-  const [acceptCandidature] = useMutation(AcceptCandidature);
+  const [acceptCandidature] = useMutation<URes, UVar>(AcceptCandidature);
 
   const errors = data?.journeyCandidatures.errors;
   errors && showError(`Erro: ${errors}`);
@@ -55,10 +58,15 @@ const JourneyCandidaturesList: React.FC<IJourneyCandidaturesList> = ({
                 acceptCandidature({
                   variables: { token, candidatureId: candidature.id },
                 })
-                  .then(() => {
-                    navigation.navigate('JourneysList', {
-                      acceptedJourney: true,
-                    });
+                  .then((result) => {
+                    const errors = result.data?.acceptCandidature.errors;
+                    if (!!errors) {
+                      showError(`Erro: ${errors}`);
+                    } else {
+                      navigation.navigate('JourneysList', {
+                        acceptedJourney: true,
+                      });
+                    }
                   })
                   .catch(() => {
                     showError('Erro: Ops, Algo deu Errado!');

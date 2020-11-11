@@ -37,8 +37,10 @@ export type RootStackParamList = {
   SignInManager: undefined;
 
   // Doctor
-  DoctorHome: undefined;
-  DoctorProfile: undefined;
+  MyDoctorProfile: undefined;
+
+  // Company
+  MyCompanyProfile: undefined;
 
   // Managers
   ManagersList: { createdManager?: boolean };
