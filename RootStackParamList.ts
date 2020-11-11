@@ -38,9 +38,11 @@ export type RootStackParamList = {
 
   // Doctor
   MyDoctorProfile: undefined;
+  DoctorProfile: { doctorId: string };
 
   // Company
   MyCompanyProfile: undefined;
+  CompanyProfile: { companyId: string };
 
   // Managers
   ManagersList: { createdManager?: boolean };

@@ -1,7 +1,12 @@
 import React, { Fragment } from 'react';
 import { Item, Label, View } from 'native-base';
 import Colors from '../../Colors';
-import { BaseInput, BaseReadOnlyInput, TextAreaInput } from './Inputs';
+import {
+  BaseInput,
+  BaseReadOnlyInput,
+  TextAreaInput,
+  TextAreaReadOnlyInput,
+} from './Inputs';
 
 export const FormItem = (
   name: string,
@@ -51,5 +56,15 @@ export const TextAreaFormItem = (
   <View style={{ marginTop: 24, paddingLeft: 16 }}>
     <Label style={{ color: Colors.success, fontWeight: '600' }}>{name}</Label>
     {TextAreaInput(value, setState)}
+  </View>
+);
+
+export const ReadOnlyTextAreaFormItem = (
+  name: string,
+  value: string,
+): React.ReactElement => (
+  <View style={{ marginTop: 24, paddingLeft: 16 }}>
+    <Label style={{ color: Colors.success, fontWeight: '600' }}>{name}</Label>
+    {TextAreaReadOnlyInput(value)}
   </View>
 );
