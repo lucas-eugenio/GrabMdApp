@@ -19,6 +19,10 @@ const CompanyFooter: React.FC<ICompanyFooter> = ({ navigation }) => {
           <Icon type="FontAwesome5" name="id-card-alt" />
           <Text>Gestores</Text>
         </Button>
+        <Button vertical onPress={() => navigation.navigate('Profile')}>
+          <Icon type="FontAwesome5" name="building" />
+          <Text>Perfil</Text>
+        </Button>
         <Button
           vertical
           onPress={() =>
