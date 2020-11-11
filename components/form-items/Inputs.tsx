@@ -62,3 +62,7 @@ export const MaskedReadOnlyInput = (
 ): React.ReactElement => (
   <Input value={MaskService.toMask(mask, value)} editable={false} />
 );
+
+export const TextAreaReadOnlyInput = (value: string): React.ReactElement => (
+  <Textarea value={value} rowSpan={3} underline bordered editable={false} />
+);

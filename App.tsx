@@ -30,6 +30,8 @@ import CandidatureDetailsPage from './components/pages/doctor/CandidatureDetails
 import JourneyCandidaturesPage from './components/pages/shared/JourneyCandidaturesPage';
 import MyCompanyProfilePage from './components/pages/company/MyCompanyProfilePage';
 import MyDoctorProfilePage from './components/pages/doctor/MyDoctorProfilePage';
+import DoctorProfilePage from './components/pages/shared/DoctorProfilePage';
+import CompanyProfilePage from './components/pages/doctor/CompanyProfilePage';
 
 // Eventually this file will get too big, I know this issue.
 // But, to avoid problems on creating routes, keep all of them instanced here.
@@ -70,6 +72,11 @@ const App = () => {
         name="FilterJourneys"
         component={FilterJourneysPage}
         options={{ title: 'Filtrar Plantões', headerBackTitle: 'Plantões' }}
+      />
+      <Stack.Screen
+        name="CompanyProfile"
+        component={CompanyProfilePage}
+        options={{ title: 'Perfil da Empresa', headerBackTitle: 'Plantões' }}
       />
     </Stack.Navigator>
   );
@@ -112,7 +119,12 @@ const App = () => {
       <Stack.Screen
         name="JourneyCandidatures"
         component={JourneyCandidaturesPage}
-        options={{ title: 'Inscrições' }}
+        options={{ title: 'Inscrições', headerBackTitle: 'Plantão' }}
+      />
+      <Stack.Screen
+        name="DoctorProfile"
+        component={DoctorProfilePage}
+        options={{ title: 'Perfil do Médico' }}
       />
     </Stack.Navigator>
   );

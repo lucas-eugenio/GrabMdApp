@@ -7,9 +7,14 @@ import { NameItem, ValueItem } from '../form-items/CardItems';
 interface IJourneyCard {
   journey: IJourneyFragment;
   onShowDetails: () => void;
+  onShowCompanyDetails?: () => void;
 }
 
-const JourneyCard: React.FC<IJourneyCard> = ({ journey, onShowDetails }) => {
+const JourneyCard: React.FC<IJourneyCard> = ({
+  journey,
+  onShowDetails,
+  onShowCompanyDetails,
+}) => {
   const { name, address, date, doctor } = journey;
 
   return (
@@ -28,13 +33,24 @@ const JourneyCard: React.FC<IJourneyCard> = ({ journey, onShowDetails }) => {
           {!!doctor && ValueItem(doctor.name)}
         </View>
       </View>
-      <View style={{ marginTop: 20 }}>
-        <Button
-          small
-          success
-          bordered
-          style={{ alignSelf: 'center' }}
-          onPress={onShowDetails}>
+      <View
+        style={{
+          marginTop: 20,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+        {!!onShowCompanyDetails && (
+          <Button
+            small
+            success
+            bordered
+            onPress={onShowCompanyDetails}
+            style={{ marginRight: 12 }}>
+            <Text>Perfil da Empresa</Text>
+          </Button>
+        )}
+        <Button small success onPress={onShowDetails}>
           <Text>Ver Mais</Text>
         </Button>
       </View>

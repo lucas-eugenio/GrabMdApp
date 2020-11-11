@@ -79,11 +79,18 @@ const FindJourneysList: React.FC<IJourneysList> = ({
                 navigation.navigate('CreateCandidature', { journey: journey });
               };
 
+              const handleShowCompanyDetails = (): void => {
+                navigation.navigate('CompanyProfile', {
+                  companyId: journey.company.id,
+                });
+              };
+
               return (
                 <JourneyCard
                   key={journey.id}
                   journey={journey}
                   onShowDetails={handleShowDetails}
+                  onShowCompanyDetails={handleShowCompanyDetails}
                 />
               );
             })}

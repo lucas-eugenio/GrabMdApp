@@ -72,11 +72,19 @@ const JourneyCandidaturesList: React.FC<IJourneyCandidaturesList> = ({
                     showError('Erro: Ops, Algo deu Errado!');
                   });
               };
+
+              const handleShowMoreInfo = (): void => {
+                navigation.navigate('DoctorProfile', {
+                  doctorId: candidature.doctor.id,
+                });
+              };
+
               return (
                 <JourneyCandidatureCard
                   key={candidature.id}
                   candidature={candidature}
                   onAcceptCandidature={handleAcceptCandidature}
+                  onShowMoreInfo={handleShowMoreInfo}
                 />
               );
             })}
